@@ -121,3 +121,16 @@ final result: passed
 ## Remove paper sculpture — 2026-09-30
 User rejected the decorative trial. App JSX, styles and project guidance restored exactly to the preceding deployed version 81b6fc4. Removed unused paper-sculpture.webp. Existing photos, signatures, logos and text remain as before.
 final result: passed
+
+
+## Approved audit refinements — 2026-09-30
+
+Reference: the published portfolio captured in `docs/qa/audit-2026-09-30`, plus the user-approved audit recommendations. Compared before/after mobile hero together in `docs/qa/refinement-2026-09-30/comparison.jpg`. Intentional revisions: mobile role and actions before portrait, tertiary PDF link, existing GMV result exposed in WB, optical logo sizes, native material viewer, full-frame SYBOX/NRF and a final horizontal NRF row.
+
+Fonts: original Oswald / Cormorant / IBM Plex preserved. Spacing: desktop hero retained; mobile role and all links visible above portrait (375px content: actions end394px, photo starts418px). Corrected narrow320px stats and experience-heading overflow; document scroll width now equals content width at320,375,720,1920px. Palette: ivory/ink/crimson and original project colors preserved. Imagery: original portrait untouched; source project images retained, no invented pixels or factual evidence. Authentic Russian Metalloinvest SVG downloaded from the company-operated vmeste.metalloinvest.com site, no recoloring. Its gray is the supplied brand color; improved recognition through Russian wording and greater size rather than altering it. Content: all7 projects and4 jobs remain, existing GMV ×3 period intact, approach text made more concrete using existing responsibilities. No new numerical claims.
+
+Browser QA: primary anchors, mobile action visibility, full-image modal on mobile/desktop, image loading, close button, Escape and focus restoration to opener passed. Desktop1348×936, mobile375×844, small320×780, tablet720×1024 and wide1920×1080 inspected. Wide hero remains1200px and name caps171px. Screenshots in refinement-2026-09-30. Browser error entries were extension metadata errors, no site errors in the inspected logs. Build plus3 motion tests and4 Sites packaging tests passed; final CSS caption adjustment rebuilt successfully. No new dependency, shader or animation loop; JS gzip68.62kB versus68.47kB before this edit. Actual physical-device performance not benchmarked.
+
+No open P0/P1/P2 issues.
+
+final result: passed

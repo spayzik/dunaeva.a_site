@@ -119,3 +119,55 @@ body{background-color:var(--paper);background-image:url('/assets/paper-ivory.png
 .mini-case__identity>.eyebrow{max-width:100%}
 
 @media(max-width:760px){.company-title .brand-logo--heading{height:55px;max-width:300px;margin:17px 0 16px}.company-title .brand-logo--wildberries{height:54px;max-width:100%}.metal-intro .company-title .brand-logo{height:57px;max-width:285px}.company-title .brand-logo--sloboda{height:91px;max-width:180px}.timeline .company-title .brand-logo{height:43px;max-width:255px}}
+
+/* Audit refinements: earlier mobile actions, optical wordmark sizing and full project materials. */
+.hero__actions{gap:24px;flex-wrap:wrap;max-width:49%}
+.hero__resume{display:inline-flex;align-items:center;gap:9px;min-height:44px;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#625a54}
+.hero__resume .arrow{font-size:17px}
+.company-title .brand-logo--heading img{width:100%;height:100%;object-fit:contain;object-position:left center}
+.company-title .brand-logo--vkusvill{max-width:285px;height:50px}
+.company-title .brand-logo--metalloinvest{max-width:285px;height:120px}
+.company-title .brand-logo--nrf{max-width:210px;height:52px}
+.wild-business{display:flex;align-items:center;gap:18px;border-top:1px solid var(--line);padding-top:17px;margin-top:23px}
+.wild-business strong{font:600 48px/1 Oswald,sans-serif;color:var(--red);white-space:nowrap}
+.wild-business p{font-size:21px;line-height:1.1;margin:0}
+.wild-business p span{display:block;font:400 10px/1.5 'IBM Plex Mono',monospace;letter-spacing:.03em;text-transform:uppercase;margin-top:6px}
+.image-open{display:block;width:100%;border:0;padding:0;color:inherit;text-align:left;cursor:zoom-in}
+.mini-case__image .image-open__hint{top:auto;left:auto;bottom:14px;right:14px;opacity:0;transition:opacity .2s}
+.image-open:hover .image-open__hint,.image-open:focus-visible .image-open__hint{opacity:1}
+.mini-case--3 .mini-case__image{height:auto;aspect-ratio:1328/929}
+.mini-case--3 .mini-case__image img{object-fit:contain}
+.case-grid .mini-case:nth-child(even){margin-top:70px}
+.mini-case--wide{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:34px}
+.mini-case--wide .mini-case__image{height:auto;aspect-ratio:781/581}
+.mini-case--wide .mini-case__image img{object-fit:contain}
+.mini-case--wide .mini-case__body{border-top:0;padding-top:0;margin-top:0}
+.image-dialog{border:0;padding:20px;background:var(--paper);color:var(--ink);max-width:calc(100vw - 48px);max-height:calc(100dvh - 48px);width:max-content;overflow:auto}
+.image-dialog::backdrop{background:rgba(18,17,16,.82)}
+.image-dialog__bar{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-bottom:14px}
+.image-dialog__bar p{font:500 12px 'IBM Plex Mono',monospace;margin:0}
+.image-dialog__bar button{display:flex;align-items:center;gap:15px;border:0;border-bottom:1px solid var(--ink);background:none;min-height:44px;padding:8px 2px;font:500 12px 'IBM Plex Mono',monospace}
+.image-dialog__bar button span{font:300 26px Arial,sans-serif}
+.image-dialog>img{max-height:calc(100dvh - 145px);max-width:min(1100px,calc(100vw - 88px));height:auto;width:auto;object-fit:contain;margin:auto}
+@media(max-width:760px){
+ .hero h1{margin-bottom:14px}.hero__role{order:1;font-size:clamp(28px,7.4vw,40px);margin:0 0 18px}.hero__actions{order:2;max-width:100%;margin:0 0 24px;gap:4px 24px}.hero__portrait{order:3;width:73%;max-width:340px}.hero__accent{top:325px;height:280px}.hero__signature{top:480px;width:140px}.hero__text .red-stroke{order:4;margin-top:24px}.hero__intro{order:5;margin-top:16px;margin-bottom:0}.hero__resume{font-size:11px}
+ .wild-stat{grid-template-columns:1fr auto 1fr;gap:4px 8px;align-items:center}.wild-stat__old{grid-column:1;grid-row:2}.wild-stat__arrow{grid-column:2;grid-row:2;font-size:26px;margin:0}.wild-stat__new{grid-column:3;grid-row:2}.wild-stat>.eyebrow:last-of-type{grid-column:1/-1;grid-row:3}.wild-business{grid-column:1/-1;grid-row:4;margin-top:12px;padding-top:14px}.wild-business strong{font-size:40px}.wild-business p{font-size:20px}.wild-stat__old,.wild-stat__new{font-size:clamp(44px,10.9vw,66px)}
+ .company-title .brand-logo--vkusvill{max-width:260px;height:45px}.company-title .brand-logo--metalloinvest{max-width:260px;height:110px}.company-title .brand-logo--nrf{max-width:200px;height:48px}
+ .mini-case--wide{gap:22px}.mini-case--wide .mini-case__body{border-top:1px solid var(--ink);padding-top:20px}.image-open__hint{display:none}.image-dialog{padding:14px;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px)}.image-dialog>img{max-width:calc(100vw - 52px)}
+}
+@media(max-width:520px){.hero__signature{top:425px;left:12px;width:130px}.hero__accent{top:295px;height:255px}.mini-case--wide{display:block}.mini-case--wide .mini-case__body{margin-top:7px}.case-grid .mini-case:nth-child(even){margin-top:0}}
+@media(prefers-reduced-motion:reduce){.image-open__hint{transition:none}}
+
+.metal-intro .company-title .brand-logo--metalloinvest{height:112px;max-width:270px}
+@media(max-width:760px){.metal-intro .company-title .brand-logo--metalloinvest{height:110px;max-width:260px}}
+
+.hero__visual{display:contents}
+@media(max-width:760px){.hero__visual{display:block;position:relative;order:3;width:100%}.hero__visual .hero__accent{top:20px;height:calc(100% - 40px)}.hero__visual .hero__signature{top:23%;left:max(0px,calc(100% - min(73%,340px) - 60px));width:140px}}
+@media(max-width:520px){.hero__visual .hero__signature{width:130px;left:0}}
+
+@media(max-width:760px){.wild-layout{grid-template-columns:minmax(0,1fr)}.wild-stat{min-width:0}.experience__intro{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:360px){.wild-stat__old,.wild-stat__new{font-size:36px}.wild-stat__arrow{font-size:22px}.experience h2{font-size:64px}.hero__actions{gap:4px 20px}}
+
+.mini-case--wide .mini-case__image>span:first-of-type{left:auto;right:16px}
+
+.wild-media{align-self:start}

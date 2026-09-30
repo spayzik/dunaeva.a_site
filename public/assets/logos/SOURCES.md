@@ -5,7 +5,7 @@
 | Файл | Источник |
 | --- | --- |
 | wildberries.svg | https://commons.wikimedia.org/wiki/File:Wildberries_2023_Pink.svg |
-| metalloinvest.svg | https://commons.wikimedia.org/wiki/File:Metalloinvest.svg |
+| metalloinvest.svg | https://vmeste.metalloinvest.com/media/1x2jvlky/logo-metalloinvest.svg — официальная русская версия, исходные цвета сохранены |
 | vkusvill.svg | https://commons.wikimedia.org/wiki/File:Vkusvill_textlogo_2021.svg — версия 2021; проверена по https://vkusvill.ru/brand/ |
 | sybox.svg | https://sybox.ai/local/templates/xpage/img/logo.svg |
 | sloboda.svg | https://sloboda.ru/wp-content/uploads/2023/10/logo.svg |
