@@ -119,3 +119,9 @@ body{background-color:var(--paper);background-image:url('/assets/paper-ivory.png
 .mini-case__identity>.eyebrow{max-width:100%}
 
 @media(max-width:760px){.company-title .brand-logo--heading{height:55px;max-width:300px;margin:17px 0 16px}.company-title .brand-logo--wildberries{height:54px;max-width:100%}.metal-intro .company-title .brand-logo{height:57px;max-width:285px}.company-title .brand-logo--sloboda{height:91px;max-width:180px}.timeline .company-title .brand-logo{height:43px;max-width:255px}}
+
+/* A single supporting artwork; its transparent silhouette stays apart from copy. */
+.approach{scroll-margin-top:24px}
+.approach__aside{min-width:0}
+.approach__art{width:100%;max-width:280px;height:auto;object-fit:contain;margin:72px auto 0;pointer-events:none;user-select:none}
+@media(max-width:760px){.approach__aside{display:flex;align-items:center;justify-content:space-between;gap:24px}.approach__art{width:124px;flex:0 0 124px;margin:0}.approach__inner{row-gap:28px}}

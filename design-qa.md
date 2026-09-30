@@ -103,3 +103,16 @@ P0/P1/P2 в проверенной области: отсутствуют.
 - Pages production build и worker/package checks passed.
 - Предел проверки: WebGL в облачном браузере unsupported, поэтому исправление режима alpha подтверждено по коду, но GPU-композитинг на ПК пользователя не проверен. Layout и fallback просмотрены в browser.
 - final result: passed (layout/build); GPU rendering unverified
+
+
+## Transparent paper sculpture trial — 2026-09-30
+
+Source: selected first artwork `generated_images/exec-0daad639-46c0-4815-b97c-069668deed00.png`; imagegen transparent edit `exec-954274b6-bdbe-4c70-a28c-0108e182bb51.png`. Technical export: 720×480 RGBA WebP, 37,688 bytes.
+
+Compared original, transparent cutout and rendered section together in `docs/qa/paper-art/desktop.jpg`. Desktop content viewport 1185px; mobile viewport 390px in `docs/qa/paper-art/mobile.jpg`.
+
+Fonts and copy remain unchanged. Warm ivory/crimson object fits the charcoal section palette. True transparency includes the internal folds; no rectangular backdrop or halo appears. Desktop image has a separate column (230.7px wide) and does not overlap the heading. Mobile image is 124×82.7px next to the section label; heading begins below it. Horizontal scroll width equals viewport width at both sizes. Decorative empty alt, hidden from assistive technologies, explicit intrinsic dimensions and lazy decoding. No extra animation or renderer. Intentional adaptation: artwork is a supporting accent, not a full-screen photo or project evidence. Existing navigation and project interactions are untouched.
+
+Production build and all 4 Sites packaging tests passed. Browser console showed only older browser-extension metadata errors, no new site errors during this check. No open P0/P1/P2 findings.
+
+final result: passed
