@@ -35,3 +35,5 @@ Latest effect request supersedes hero dust and the prior no-gradient restriction
 Latest hero feedback: the final A in Александра must stay clear of the face. Narrow desktop name scale to 0.79 and the 761–1100px layout to 0.66, preserving name height and role spacing. Mobile keeps its untransformed name above the portrait. Overlap may use the empty left side of the photo, never the face.
 
 Latest Approach request: replace the prior glow with a slowly warped mesh gradient inspired by the supplied React example. Keep it transparent, subdued wine/mauve, behind all content; preserve bounded resolution, 24fps cap, visibility lifecycle and mobile/reduced-motion fallbacks. Reuse the existing shader renderer without adding framework or shader dependencies.
+
+Latest Approach direction supersedes the mesh gradient: use the supplied metaball field as a small, transparent wine/rose focal point in the upper-right empty area (not beneath the heading). Keep the existing layout, content, perf limits and static fallbacks; no extra full-section gradient animation or cursor interaction.

@@ -694,16 +694,20 @@ button:focus-visible {
 .approach::before {
   content: "";
   position: absolute;
-  right: -15%;
-  top: -80%;
-  width: 80%;
-  height: 170%;
+  right: 4%;
+  top: 12px;
+  width: clamp(160px, 19vw, 250px);
+  height: 150px;
   pointer-events: none;
   background: radial-gradient(
-    ellipse,
-    rgba(136, 18, 53, 0.16),
-    transparent 65%
+    circle at 50% 50%,
+    rgba(171, 61, 89, 0.3) 0,
+    rgba(102, 9, 36, 0.22) 25px,
+    transparent 46px
   );
+}
+.approach:has(.approach-glow[data-state="ready"])::before {
+  opacity: 0;
 }
 .approach .section-label {
   color: #c4b6b6;
@@ -1586,9 +1590,10 @@ button:focus-visible {
 }
 .approach-glow {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 12px;
+  right: 4%;
+  width: clamp(160px, 19vw, 250px);
+  height: 150px;
   pointer-events: none;
 }
 .approach-glow:not([data-state="ready"]) {

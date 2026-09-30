@@ -1,25 +1,26 @@
 import { useEffect, useRef } from "react";
 
 const vertex = "attribute vec2 p; void main(){gl_Position=vec4(p,0.,1.);}";
+// Metaball field adapted from the supplied 21st.dev Shader Builder reference.
 const fragment = `precision mediump float;
 uniform vec2 size; uniform float time;
 void main(){
-  vec2 uv=gl_FragCoord.xy/size;
-  vec2 q=uv*2.-1.;
-  // Slow domain warping creates soft mesh folds rather than bright blobs.
-  float t=time*.12;
-  for(int i=0;i<3;i++){
-    float k=float(i)+1.;
-    q+=.16/k*vec2(sin(q.y*2.6+k+t),cos(q.x*2.3-k-t*.8));
+  vec2 p=(gl_FragCoord.xy-.5*size)/min(size.x,size.y)*2.5;
+  float t=time*.22;
+  float field=0.;
+  for(int i=0;i<5;i++){
+    float fi=float(i);
+    vec2 c=vec2(sin(t*(.3+fi*.11)+fi*2.+1.),
+                cos(t*(.23+fi*.13)+fi*1.3))*.55;
+    field+=.055/(dot(p-c,p-c)+.003);
   }
-  float fold=.5+.5*sin(q.x*2.4+q.y*1.8+t);
-  float silk=.5+.5*cos(q.y*2.8-q.x*1.3-t*.7);
-  vec3 wine=vec3(.38,.035,.13);
-  vec3 mauve=vec3(.28,.12,.20);
-  vec3 color=mix(wine,mauve,smoothstep(.15,.85,fold));
-  color=mix(color,vec3(.40,.22,.24),silk*.22);
-  float edge=smoothstep(0.,.24,uv.x)*smoothstep(0.,.24,1.-uv.x);
-  float alpha=(.14+.19*fold)*edge;
+  float body=smoothstep(.4,1.25,field);
+  vec3 wine=vec3(.40,.035,.14);
+  vec3 rose=vec3(.67,.24,.35);
+  vec3 color=mix(wine,rose,smoothstep(.6,1.9,field));
+  float rim=body*(1.-smoothstep(1.1,2.5,field));
+  color+=vec3(.10,.07,.065)*rim;
+  float alpha=body*.48;
   gl_FragColor=vec4(color*alpha,alpha);
 }`;
 
@@ -99,7 +100,7 @@ export function ApproachGlow() {
     };
     const resize = () => {
       if (!resources || lost) return;
-      const box = host.getBoundingClientRect();
+      const box = canvas.getBoundingClientRect();
       const scale = Math.min(
         1,
         720 / Math.max(1, box.width),
