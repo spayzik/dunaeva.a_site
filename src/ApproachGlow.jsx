@@ -2,15 +2,25 @@ import { useEffect, useRef } from "react";
 
 const vertex = "attribute vec2 p; void main(){gl_Position=vec4(p,0.,1.);}";
 const fragment = `precision mediump float;
-uniform vec2 size; uniform vec2 a; uniform vec2 b; uniform float blend;
+uniform vec2 size; uniform float time;
 void main(){
   vec2 uv=gl_FragCoord.xy/size;
-  vec2 da=(uv-a)*vec2(1.,.85), db=(uv-b)*vec2(1.,.8);
-  float wa=exp(-dot(da,da)*5.), wb=exp(-dot(db,db)*6.);
-  vec3 wine=mix(vec3(.18,.008,.065),vec3(.12,.022,.09),blend);
-  vec3 color=vec3(.085,.08,.075)+wine*wa+vec3(.06,.035,.015)*wb;
-  float grain=fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)-.5;
-  gl_FragColor=vec4(color+grain*.008,1.);
+  vec2 q=uv*2.-1.;
+  // Slow domain warping creates soft mesh folds rather than bright blobs.
+  float t=time*.12;
+  for(int i=0;i<3;i++){
+    float k=float(i)+1.;
+    q+=.16/k*vec2(sin(q.y*2.6+k+t),cos(q.x*2.3-k-t*.8));
+  }
+  float fold=.5+.5*sin(q.x*2.4+q.y*1.8+t);
+  float silk=.5+.5*cos(q.y*2.8-q.x*1.3-t*.7);
+  vec3 wine=vec3(.38,.035,.13);
+  vec3 mauve=vec3(.28,.12,.20);
+  vec3 color=mix(wine,mauve,smoothstep(.15,.85,fold));
+  color=mix(color,vec3(.40,.22,.24),silk*.22);
+  float edge=smoothstep(0.,.24,uv.x)*smoothstep(0.,.24,1.-uv.x);
+  float alpha=(.14+.19*fold)*edge;
+  gl_FragColor=vec4(color*alpha,alpha);
 }`;
 
 function resourcesFor(gl) {
@@ -54,9 +64,7 @@ function resourcesFor(gl) {
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
     return {
       size: gl.getUniformLocation(program, "size"),
-      a: gl.getUniformLocation(program, "a"),
-      b: gl.getUniformLocation(program, "b"),
-      blend: gl.getUniformLocation(program, "blend"),
+      time: gl.getUniformLocation(program, "time"),
       dispose,
     };
   } catch {
@@ -111,17 +119,7 @@ export function ApproachGlow() {
         last = now;
         const t = elapsed / 1000;
         gl.uniform2f(resources.size, canvas.width, canvas.height);
-        gl.uniform2f(
-          resources.a,
-          0.8 + Math.sin(t * 0.095) * 0.12,
-          0.55 + Math.cos(t * 0.075) * 0.22,
-        );
-        gl.uniform2f(
-          resources.b,
-          0.1 + Math.cos(t * 0.08) * 0.13,
-          0.3 + Math.sin(t * 0.09) * 0.2,
-        );
-        gl.uniform1f(resources.blend, 0.5 + Math.sin(t * 0.07) * 0.5);
+        gl.uniform1f(resources.time, t);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         canvas.drawCount = ++draws;
       }
@@ -137,7 +135,8 @@ export function ApproachGlow() {
         !unavailable
       ) {
         gl = canvas.getContext("webgl", {
-          alpha: false,
+          alpha: true,
+          premultipliedAlpha: true,
           antialias: false,
           powerPreference: "low-power",
         });
