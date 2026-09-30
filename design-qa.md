@@ -83,3 +83,13 @@ P0/P1/P2 в проверенной области: отсутствуют.
 - Pages build с DEPLOY_BASE=/dunaeva.a_site/ passed; проверены prefixed JS/CSS entry URLs, URL бумажной фактуры в CSS и оба PDF в output. Motion и worker/package tests passed.
 - Публикация: workflow подготовлен, включение Pages и публичная проверка отдельно от этой локальной проверки.
 - final result: passed (implementation scope)
+
+## Итерация: естественный портрет и стабильные интервалы hero, 30.09.2026
+
+- Убраны дополнительный contrast/grayscale filter, планшетная fade-маска, увеличение портрета при наведении и zoom entrance. Исходный монохромный JPG сохранён; object-position теперь top, чтобы не срезать верх головы. Mobile frame 4:5 с исходными пропорциями изображения через object-fit: cover.
+- Световой canvas перенесён в hero позади портрета, текста и акцентной панели. Pointer coordinates считаются относительно hero, включая события над дочерними элементами. Demand renderer, visibility/intersection gates и ограничение 900×720 сохранены.
+- Hero получил естественную высоту вместо жёсткой; межстрочный интервал имени 1.02, интервал перед должностью 30px. Mobile: имя и портрет разделены 22px, портрет и должность 30px; отрицательные отступы удалены.
+- Browser desktop: clientWidth = scrollWidth = 1348; role начинается на 30px ниже bounding box h1, photo filter none. Tablet iframe: clientWidth = scrollWidth = 968, mask/filter none, gapRole 30px. Mobile iframe: clientWidth = scrollWidth = 375; title bottom 209.28, photo top 231.28, photo bottom 580.91, role top 610.91; canvas disabled.
+- Скриншоты: docs/qa/hero-fix/desktop.jpg, mobile.jpg, tablet.jpg. Визуально проверены читаемость, голова/лицо без верхнего обрезания, разделение мобильных блоков и сохранение редакционной композиции.
+- Production build с GitHub Pages base passed. Motion и worker/package tests passed. Shader на физическом GPU и FPS на телефоне не измерялись; в облачном браузере WebGL недоступен. Статичное фото и layout проверены в браузере.
+- final result: passed (hero correction scope)

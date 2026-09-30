@@ -48,7 +48,7 @@ function StudioLight() {
       return shader;
     };
     const vertex = compile(gl.VERTEX_SHADER, 'attribute vec2 p; void main(){gl_Position=vec4(p,0.,1.);}');
-    const fragment = compile(gl.FRAGMENT_SHADER, 'precision mediump float; uniform vec2 m; uniform vec2 s; void main(){vec2 u=gl_FragCoord.xy/s; float line=abs(u.x*.85+u.y*.5-(m.x*.35+.48)); float beam=exp(-line*line*55.); float spot=exp(-distance(u,vec2(m.x,1.-m.y))*3.); gl_FragColor=vec4(1.,.95,.89,beam*.15+spot*.08);}');
+    const fragment = compile(gl.FRAGMENT_SHADER, 'precision mediump float; uniform vec2 m; uniform vec2 s; void main(){vec2 u=gl_FragCoord.xy/s; float line=abs(u.x*.85+u.y*.5-(m.x*.35+.48)); float beam=exp(-line*line*55.); float spot=exp(-distance(u,vec2(m.x,1.-m.y))*3.); vec3 tint=mix(vec3(.64,.32,.40),vec3(1.,.97,.91),beam); gl_FragColor=vec4(tint,beam*.18+spot*.035);}');
     if (!vertex || !fragment) { if (vertex) gl.deleteShader(vertex); if (fragment) gl.deleteShader(fragment); return; }
     const program = gl.createProgram();
     gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
@@ -78,8 +78,9 @@ function StudioLight() {
     };
     const move = event => {
       if (!inView || !allowed.matches || document.hidden) return;
-      point.x = Math.max(0, Math.min(1, event.offsetX / bounds.width));
-      point.y = Math.max(0, Math.min(1, event.offsetY / bounds.height));
+      bounds = host.getBoundingClientRect();
+      point.x = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+      point.y = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
       renderer.request();
     };
     const leave = () => { point.x = .7; point.y = .25; renderer.request(); };
@@ -122,8 +123,9 @@ export function App() {
     </header>
     <main id="top">
       <section className="hero wrap" aria-labelledby="hero-title">
+        <StudioLight/>
         <div className="hero__accent" aria-hidden="true"/>
-        <div className="hero__portrait"><img src={asset('portrait.jpg')} alt="Александра Дунаева, портрет" fetchPriority="high"/><StudioLight/><div className="hero__portrait-note">Стратегия<br/>Команда<br/>Креатив<br/>Результат</div></div>
+        <div className="hero__portrait"><img src={asset('portrait.jpg')} alt="Александра Дунаева, портрет" width="736" height="1130" fetchPriority="high"/><div className="hero__portrait-note">Стратегия<br/>Команда<br/>Креатив<br/>Результат</div></div>
         <div className="hero__text"><p className="hero__eyebrow">Портфолио / 2026</p><h1 id="hero-title"><span className="hero__line">Александра</span><span className="hero__line">Дунаева</span></h1><p className="hero__role">Руководитель команды<br/>социальных медиа</p><span className="red-stroke" aria-hidden="true"/><p className="hero__intro">Собираю команды. Развиваю бренды.<br/>От стратегии до измеримого результата.</p><div className="hero__actions"><a className="text-link hero__link" href="#projects">Смотреть проекты <Arrow/></a><a className="hero__contact" href="https://t.me/aleksaa_aleksa" target="_blank" rel="noopener noreferrer">Написать <Arrow diagonal/></a></div></div>
         <img className="hero__signature" src={asset('signature.png')} alt="SMM Lead"/>
       </section>
