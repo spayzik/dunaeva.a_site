@@ -13,3 +13,5 @@ When implementing from a selected generated mock, treat that image as the source
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.
 
 Company logos must identify each named case and available employer clearly. Use authentic downloaded marks at restrained optical sizes, preserve their proportions and colors, and maintain the editorial whitespace. Do not replace them with typed brand names or generic cards.
+
+Latest feedback: keep the portfolio airy and avoid overload. Use lightweight editorial motion, preserve native scrolling, and protect performance on mobile. The studio shader must be local to the portrait, draw only on demand, pause offscreen/hidden, and be disabled for coarse pointers and reduced motion. Keep case text short, distinguish task and personal contribution, and use only PDF-confirmed dates.
