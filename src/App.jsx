@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { StudioLight } from "./StudioLight.jsx";
+import { HeroDust } from "./HeroDust.jsx";
 import { lockPageScroll } from "./scroll-lock.js";
 
 const asset = (name) => import.meta.env.BASE_URL + "assets/" + name;
@@ -356,6 +357,7 @@ export function App() {
       <main id="top">
         <section className="hero wrap" aria-labelledby="hero-title">
           <StudioLight />
+          <HeroDust />
           <div className="hero__visual">
             <div className="hero__accent" aria-hidden="true" />
             <div className="hero__portrait">

@@ -29,6 +29,7 @@
   --ink: #121110;
   --red: #a50836;
   --line: #c9c4bc;
+  scrollbar-color: #a50836 #ebe6de;
 }
 * {
   box-sizing: border-box;
@@ -1572,6 +1573,58 @@ button:focus-visible {
   height: 100%;
   pointer-events: none;
   mix-blend-mode: normal;
+}
+
+.hero-dust {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-dust__dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #a50836;
+  opacity: 0;
+}
+.hero-dust__dot[data-tone="warm"] {
+  width: 2px;
+  height: 2px;
+  background: #b18a64;
+}
+@supports not (scrollbar-color: red white) {
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #ebe6de;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #a50836;
+    border: 3px solid #ebe6de;
+    border-radius: 10px;
+  }
+}
+@media (max-width: 760px),
+  (hover: none),
+  (pointer: coarse),
+  (prefers-reduced-motion: reduce) {
+  .hero-dust {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  :root {
+    scrollbar-color: auto;
+  }
+  .hero-dust {
+    display: none;
+  }
 }
 
 .hero__line {

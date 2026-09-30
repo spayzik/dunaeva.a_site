@@ -27,3 +27,5 @@ Audit refinements approved: on mobile show the role and actions before the portr
 Latest project-layout feedback: keep the original two-column editorial grid, NOT a carousel. VkusVill starts higher; neighboring right-column stories sit slightly lower (96px desktop / 64px tablet). Preserve the original full-width NRF final row. On single-column mobile remove the stagger. This supersedes the carousel experiment; keep all audit fixes and source facts.
 
 Annotated sketch refinement: raise the start of the case grid by reducing heading bottom padding from 35px to 20px; use a visibly stepped left-high/right-low rhythm for complete cards across both paired rows. Keep single-column mobile unstaggered and NRF as the existing final row.
+
+Approved restrained effects: retain native scrolling with a wine-colored thumb and warm paper track. Add sparse mouse-triggered dust only in free hero space, with a fixed pool, finite transform/opacity animations and no idle render loop. Protect text, controls, portrait and signature; disable on touch, mobile and reduced motion, and clear offscreen/hidden. Do not add another animated gradient alongside these effects.

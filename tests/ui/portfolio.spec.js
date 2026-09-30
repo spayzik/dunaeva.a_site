@@ -15,6 +15,67 @@ test.afterEach(async ({ page }) => {
   expect(page.auditErrors).toEqual([]);
 });
 
+test("hero dust is bounded, settles when idle and stops for reduced motion", async ({
+  page,
+  isMobile,
+}) => {
+  const layer = page.locator(".hero-dust");
+  if (isMobile) {
+    await expect(layer).toBeHidden();
+    await expect(layer).toHaveAttribute("data-state", "disabled");
+    return;
+  }
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await expect(layer).toHaveAttribute("data-state", "ready");
+  const hero = await page.locator(".hero").boundingBox();
+  const running = () =>
+    layer.evaluate(
+      (el) =>
+        el
+          .getAnimations({ subtree: true })
+          .filter((a) => a.playState === "running").length,
+    );
+  await page.mouse.move(hero.x + 25, hero.y + hero.height - 25);
+  await expect.poll(running).toBeGreaterThan(0);
+  await expect(layer.locator("span")).toHaveCount(8);
+  // Animation completion, rather than an idle frame loop, is the stop condition.
+  await expect.poll(running).toBe(0);
+  await page.mouse.move(hero.x + 90, hero.y + hero.height - 25);
+  await expect.poll(running).toBeGreaterThan(0);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(layer).toBeHidden();
+  await expect(layer).toHaveAttribute("data-state", "disabled");
+  expect(await running()).toBe(0);
+});
+
+test("hero dust protects portrait and type from pointer particles", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "Cursor effect is disabled on touch devices");
+  await expect(page.locator(".hero-dust")).toHaveAttribute(
+    "data-state",
+    "ready",
+  );
+  for (const selector of [".hero__portrait", ".hero__role", "h1"]) {
+    const box = await page.locator(selector).boundingBox();
+    await page.mouse.move(
+      box.x + box.width / 2,
+      box.y + Math.min(30, box.height / 2),
+    );
+    expect(
+      await page
+        .locator(".hero-dust")
+        .evaluate(
+          (el) =>
+            el
+              .getAnimations({ subtree: true })
+              .filter((a) => a.playState === "running").length,
+        ),
+    ).toBe(0);
+  }
+});
+
 test("all nine project viewers open, close and restore focus", async ({
   page,
 }) => {
