@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { StudioLight } from "./StudioLight.jsx";
-import { HeroDust } from "./HeroDust.jsx";
+import { CursorTrail } from "./CursorTrail.jsx";
+import { ApproachGlow } from "./ApproachGlow.jsx";
 import { lockPageScroll } from "./scroll-lock.js";
 
 const asset = (name) => import.meta.env.BASE_URL + "assets/" + name;
@@ -317,6 +318,7 @@ export function App() {
   }, []);
   return (
     <>
+      <CursorTrail />
       <header className="site-header wrap" ref={header}>
         <button
           ref={menuToggle}
@@ -357,7 +359,6 @@ export function App() {
       <main id="top">
         <section className="hero wrap" aria-labelledby="hero-title">
           <StudioLight />
-          <HeroDust />
           <div className="hero__visual">
             <div className="hero__accent" aria-hidden="true" />
             <div className="hero__portrait">
@@ -677,6 +678,7 @@ export function App() {
           </div>
         </section>
         <section className="approach" aria-labelledby="approach-title">
+          <ApproachGlow />
           <div className="wrap approach__inner reveal">
             <Label>Подход</Label>
             <div>

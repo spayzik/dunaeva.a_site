@@ -15,65 +15,87 @@ test.afterEach(async ({ page }) => {
   expect(page.auditErrors).toEqual([]);
 });
 
-test("hero dust is bounded, settles when idle and stops for reduced motion", async ({
+test("global cursor trail settles and follows later sections without intercepting controls", async ({
   page,
   isMobile,
 }) => {
-  const layer = page.locator(".hero-dust");
+  const canvas = page.locator(".cursor-trail");
+  await expect(canvas).toHaveCount(1);
   if (isMobile) {
-    await expect(layer).toBeHidden();
-    await expect(layer).toHaveAttribute("data-state", "disabled");
+    await expect(canvas).toBeHidden();
+    await expect(canvas).toHaveAttribute("data-state", "disabled");
     return;
   }
-  await page.setViewportSize({ width: 1440, height: 1100 });
-  await expect(layer).toHaveAttribute("data-state", "ready");
-  const hero = await page.locator(".hero").boundingBox();
-  const running = () =>
-    layer.evaluate(
+  await page.mouse.move(180, 150);
+  await page.mouse.move(240, 160, { steps: 8 });
+  await expect(canvas).toHaveAttribute("data-state", "active");
+  await expect(canvas).toHaveAttribute("data-state", "idle");
+  const frames = await canvas.getAttribute("data-frames");
+  await page.waitForTimeout(150);
+  expect(await canvas.getAttribute("data-frames")).toBe(frames);
+  await page.locator(".approach").scrollIntoViewIfNeeded();
+  const box = await page.locator(".approach").boundingBox();
+  await page.mouse.move(box.x + 120, box.y + 90);
+  await page.mouse.move(box.x + 180, box.y + 100, { steps: 8 });
+  await expect(canvas).toHaveAttribute("data-state", "active");
+  expect(
+    await canvas.evaluate(
       (el) =>
-        el
-          .getAnimations({ subtree: true })
-          .filter((a) => a.playState === "running").length,
-    );
-  await page.mouse.move(hero.x + 25, hero.y + hero.height - 25);
-  await expect.poll(running).toBeGreaterThan(0);
-  await expect(layer.locator("span")).toHaveCount(8);
-  // Animation completion, rather than an idle frame loop, is the stop condition.
-  await expect.poll(running).toBe(0);
-  await page.mouse.move(hero.x + 90, hero.y + hero.height - 25);
-  await expect.poll(running).toBeGreaterThan(0);
+        el.width <= 240 &&
+        el.height <= 240 &&
+        getComputedStyle(el).pointerEvents === "none",
+    ),
+  ).toBe(true);
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(layer).toBeHidden();
-  await expect(layer).toHaveAttribute("data-state", "disabled");
-  expect(await running()).toBe(0);
+  await expect(canvas).toBeHidden();
+  await expect(canvas).toHaveAttribute("data-state", "disabled");
 });
 
-test("hero dust protects portrait and type from pointer particles", async ({
+test("dark shader runs only in view and recovers context loss", async ({
   page,
+  browserName,
   isMobile,
 }) => {
-  test.skip(isMobile, "Cursor effect is disabled on touch devices");
-  await expect(page.locator(".hero-dust")).toHaveAttribute(
-    "data-state",
-    "ready",
-  );
-  for (const selector of [".hero__portrait", ".hero__role", "h1"]) {
-    const box = await page.locator(selector).boundingBox();
-    await page.mouse.move(
-      box.x + box.width / 2,
-      box.y + Math.min(30, box.height / 2),
-    );
-    expect(
-      await page
-        .locator(".hero-dust")
-        .evaluate(
-          (el) =>
-            el
-              .getAnimations({ subtree: true })
-              .filter((a) => a.playState === "running").length,
-        ),
-    ).toBe(0);
+  const canvas = page.locator(".approach-glow");
+  await expect(canvas).toHaveAttribute("data-state", "paused");
+  await page.locator(".approach").scrollIntoViewIfNeeded();
+  if (isMobile) {
+    await expect(canvas).toBeHidden();
+    await expect(canvas).toHaveAttribute("data-state", "paused");
+    return;
   }
+  test.skip(
+    browserName !== "chromium",
+    "Software-WebGL lifecycle check on Chromium only",
+  );
+  await expect(canvas).toHaveAttribute("data-state", "ready");
+  expect(
+    await canvas.evaluate((el) => el.width <= 720 && el.height <= 420),
+  ).toBe(true);
+  expect(
+    await canvas.evaluate((el) => {
+      const ext = el.getContext("webgl").getExtension("WEBGL_lose_context");
+      if (!ext) return false;
+      el.addEventListener(
+        "webglcontextlost",
+        () => setTimeout(() => ext.restoreContext(), 100),
+        { once: true },
+      );
+      ext.loseContext();
+      return true;
+    }),
+  ).toBe(true);
+  await expect(canvas).toHaveAttribute("data-state", "lost");
+  await expect(canvas).toHaveAttribute("data-state", "ready");
+  await page.getByRole("heading", { level: 1 }).scrollIntoViewIfNeeded();
+  await expect(canvas).toHaveAttribute("data-state", "paused");
+  const frames = await canvas.getAttribute("data-frames");
+  await page.waitForTimeout(150);
+  expect(await canvas.getAttribute("data-frames")).toBe(frames);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.locator(".approach").scrollIntoViewIfNeeded();
+  await expect(canvas).toHaveAttribute("data-state", "paused");
+  await expect(canvas).toBeHidden();
 });
 
 test("all nine project viewers open, close and restore focus", async ({
