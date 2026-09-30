@@ -2568,7 +2568,7 @@ html:has(.image-dialog[open]) {
 :root {
   scrollbar-gutter: stable;
 }
-.no-js .image-open {
+.no-js:not(.js-enabled) .image-open {
   pointer-events: none;
 }
 .image-fallback {
@@ -2594,17 +2594,17 @@ html:has(.image-dialog[open]) {
   margin: 8px 0 0;
 }
 @media (max-width: 760px) {
-  .no-js .site-header {
+  .no-js:not(.js-enabled) .site-header {
     height: auto;
     min-height: 58px;
     flex-wrap: wrap;
     gap: 16px;
     padding-block: 18px;
   }
-  .no-js .menu-toggle {
+  .no-js:not(.js-enabled) .menu-toggle {
     display: none;
   }
-  .no-js .nav {
+  .no-js:not(.js-enabled) .nav {
     display: flex;
     position: static;
     flex-wrap: wrap;
@@ -2614,7 +2614,7 @@ html:has(.image-dialog[open]) {
     background: transparent;
     order: 2;
   }
-  .no-js .header-name {
+  .no-js:not(.js-enabled) .header-name {
     margin-left: auto;
   }
 }

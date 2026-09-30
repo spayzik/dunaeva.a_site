@@ -269,6 +269,47 @@ test("reduced motion disables the studio light", async ({ page }) => {
   ).toBe("none");
 });
 
+test("slow JavaScript keeps initial mobile layout stable and content readable", async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+  });
+  let release;
+  const held = new Promise((resolve) => {
+    release = resolve;
+  });
+  await context.route("**/assets/*.js", async (route) => {
+    await held;
+    await route.continue();
+  });
+  const page = await context.newPage();
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto(baseURL, { waitUntil: "commit" });
+  const role = page.locator(".hero__role");
+  await expect
+    .poll(() => role.evaluate((el) => getComputedStyle(el).fontFamily))
+    .toContain("Cormorant");
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByRole("navigation")).not.toBeVisible();
+  const before = await role.boundingBox();
+  release();
+  await expect(page.locator("html")).not.toHaveClass(/no-js/);
+  await expect
+    .poll(async () => (await role.boundingBox()).y)
+    .toBeCloseTo(before.y, 0);
+  await page.locator(".menu-toggle").click();
+  await expect(page.locator(".menu-toggle")).toHaveAttribute(
+    "aria-expanded",
+    "true",
+  );
+  expect(errors).toEqual([]);
+  await context.close();
+});
+
 test("studio light initializes after widening and recovers a lost context", async ({
   browser,
   browserName,

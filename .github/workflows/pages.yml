@@ -28,6 +28,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm audit --audit-level=moderate
+      - name: Prepare container browser profile
+        run: chown "$(id -u):$(id -g)" /github/home
       - run: npm run build
         env:
           DEPLOY_BASE: /dunaeva.a_site/
