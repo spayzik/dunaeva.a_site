@@ -237,7 +237,7 @@ button:focus-visible {
   line-height: 1.02;
   max-width: 100%;
   white-space: nowrap;
-  transform: scaleX(0.87);
+  transform: scaleX(0.79);
   transform-origin: left center;
 }
 .hero__role {
@@ -945,7 +945,7 @@ button:focus-visible {
   }
   .hero h1 {
     font-size: 15.2vw;
-    transform: scaleX(0.7);
+    transform: scaleX(0.66);
     margin-bottom: 30px;
   }
   .hero__role {
