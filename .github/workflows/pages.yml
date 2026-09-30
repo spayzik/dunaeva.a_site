@@ -13,6 +13,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,7 +28,9 @@ jobs:
       - run: npm run build
         env:
           DEPLOY_BASE: /dunaeva.a_site/
-      - run: npx playwright install --with-deps chromium firefox webkit
+      - name: Install test browsers
+        timeout-minutes: 5
+        run: npx playwright install --with-deps chromium firefox webkit
       - run: npm test
         env:
           DEPLOY_BASE: /dunaeva.a_site/
