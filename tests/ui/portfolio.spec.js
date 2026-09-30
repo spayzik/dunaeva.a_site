@@ -292,7 +292,17 @@ test("slow JavaScript keeps initial mobile layout stable and content readable", 
   await expect
     .poll(() => role.evaluate((el) => getComputedStyle(el).fontFamily))
     .toContain("Cormorant");
-  await page.evaluate(() => document.fonts.ready);
+  // An unresolved module keeps document.fonts.ready pending in some engines.
+  // Explicitly load the two faces used by the measured name/role instead.
+  await page.evaluate(() =>
+    Promise.all([
+      document.fonts.load(
+        '500 32px "Cormorant Garamond"',
+        "Руководитель команды",
+      ),
+      document.fonts.load('700 60px "Oswald"', "АЛЕКСАНДРА ДУНАЕВА"),
+    ]),
+  );
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("navigation")).not.toBeVisible();
   const before = await role.boundingBox();
@@ -350,4 +360,48 @@ test("studio light initializes after widening and recovers a lost context", asyn
   await expect(canvas).toHaveAttribute("data-state", "lost");
   await expect(canvas).toHaveAttribute("data-state", "ready");
   await context.close();
+});
+
+test("project carousel navigates both ways and keeps all stories accessible", async ({
+  page,
+}, testInfo) => {
+  const track = page.getByRole("region", {
+    name: "Другие истории — карусель проектов",
+  });
+  await track.scrollIntoViewIfNeeded();
+  const previous = page.getByRole("button", { name: "Предыдущие проекты" });
+  const next = page.getByRole("button", { name: "Следующие проекты" });
+  await expect(previous).toBeDisabled();
+  await next.click();
+  await expect
+    .poll(() => track.evaluate((el) => el.scrollLeft))
+    .toBeGreaterThan(10);
+  await expect(previous).toBeEnabled();
+  await previous.click();
+  await expect
+    .poll(() => track.evaluate((el) => el.scrollLeft))
+    .toBeLessThan(2);
+  await track.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect
+    .poll(() => track.evaluate((el) => el.scrollLeft))
+    .toBeGreaterThan(10);
+  for (let i = 0; i < 5 && !(await next.isDisabled()); i++) {
+    await next.click();
+    await expect
+      .poll(() => track.evaluate((el) => el.scrollLeft))
+      .toBeGreaterThan(10);
+    await page.waitForTimeout(500);
+  }
+  await expect(next).toBeDisabled();
+  await expect(track.locator(".mini-case")).toHaveCount(5);
+  await expect(track.locator(".mini-case").last()).toBeInViewport();
+  await previous.click();
+  await expect(next).toBeEnabled();
+  await track.evaluate((el) => el.scrollTo({ left: 0, behavior: "instant" }));
+  await expect(previous).toBeDisabled();
+  await page.screenshot({
+    path: testInfo.outputPath("project-carousel.png"),
+    animations: "disabled",
+  });
 });

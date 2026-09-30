@@ -23,3 +23,5 @@ Use GitHub Pages for public hosting as explicitly requested. DEPLOY_BASE must pr
 Wide desktop correction: cap the editorial content width at 1200px and the hero name at 171px. The portrait uses a 4:5 frame rather than growing wider at a fixed 680px height. The transparent WebGL surface uses explicitly premultiplied alpha; RGB must be multiplied by alpha to avoid an opaque white rectangle on GPU-enabled browsers.
 
 Audit refinements approved: on mobile show the role and actions before the portrait; add a compact resume link, expose the confirmed GMV ×3 result in the main WB case, normalize optical logo sizes without recoloring, allow full project images in a native dialog, and make NRF a deliberate final row. Preserve all seven projects and facts. No new decorative images or shader loops.
+
+Latest project-layout feedback: make “Другие истории” a compact native horizontal carousel with arrows/swipe, a modest 28px desktop / 14px mobile stagger, and no large empty gaps. Preserve the two featured cases, all seven projects and source facts. No autoplay or animation loop. This supersedes the earlier standalone NRF final-row layout.
