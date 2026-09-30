@@ -147,3 +147,18 @@ Limits: local-browser preview was denied by automatic review because its shared 
 No new dependency, renderer or idle loop. JS gzip68.88kB versus68.62kB in the preceding build.
 
 final result: passed (build and public desktop interactions); repeat mobile browser QA unavailable
+
+
+## Strategy disclosure and campaign evidence — 2026-09-30
+
+User asked for a more noticeable, creative but restrained strategy disclosure, clearer secondary HR numbers, and the Instagram subscriber screenshot from the portfolio. Summary now uses the original editorial serif, a crimson italic accent, subtle paper tint, extra padding and a52px outlined circle. The circle rotates into a close mark on expansion; native details/summary keyboard semantics and reduced-motion behavior remain. Mobile rules use a44px circle, wrapping heading and narrower padding.
+
+HR impressions7348491, clicks36910 and calls2156 are unchanged source values from portfolio.pdf page10, now represented as a semantic definition list with22–30px Oswald numerals and quieter serif labels. The crimson1015 remains the dominant result. Labels stack below numbers on narrower layouts to avoid a crowded row.
+
+Instagram asset was extracted directly with pdfimages from portfolio.pdf page4, object54, original1206×756JPEG, no redraw, crop, retouch or synthetic evidence. It appears inside the expanded WB section and opens via the existing native viewer. The text explicitly labels1.2million as the count at the time of the screenshot, not a current verified account total. A nonbreaking space keeps the number and unit together.
+
+Public desktop screenshots in docs/qa/strategy-2026-09-30 show the closed/open summary, full Instagram image and HR hierarchy. Click and Enter toggled the disclosure; the original-image action opened and closed through the existing viewer. Public Pages deployment for f347148 succeeded, workflow36723947865. The final narrower-layout adjustment only changes styles at521–1100px; the final text adjustment only binds the number to its unit. Production builds passed. Three motion and four packaging tests passed before the final CSS-only and spacing adjustments; CI repeats the full checks. No new dependency, animation loop, numerical claim or section outside the existing WB case.
+
+Limit: no fresh mobile/tablet browser capture; local preview remained unavailable under the earlier automatic-review restriction. Desktop presentation is visually verified. Mobile rules are implemented but physical-device appearance is not confirmed.
+
+final result: passed (public desktop, build and existing tests); mobile browser verification unavailable
