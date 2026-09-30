@@ -134,3 +134,16 @@ Browser QA: primary anchors, mobile action visibility, full-image modal on mobil
 No open P0/P1/P2 issues.
 
 final result: passed
+
+
+## Complete material viewer — 2026-09-30
+
+Completed the remaining approved media interaction: all seven cases and the WB integration image now share the same native dialog. A discreet expand arrow is always available, including the mobile CSS breakpoint. Explicit original dimensions reserve media space. Dialog images mount only when opened; the original-file link supports browser-native enlargement without a zoom library. Native focus handling, Escape and backdrop closing are retained; background scrolling locks while the dialog is open. WB integration artwork is displayed as a full square. Existing fonts, portrait, logos, project facts and overall hierarchy are preserved.
+
+Production build and all seven motion/packaging checks passed. GitHub Pages workflow 36721604928 completed successfully for 1884217. On the public Pages site, eight image buttons were present; WB main, HR, WB integration and SYBOX dialogs loaded the original images at widths2307/1600/1280/1328px. Close and Escape passed, focus returned to the opener, body scrolling restored. Public document clientWidth and scrollWidth both1348px. The viewer screenshot is recorded in docs/qa/completion-2026-09-30/project-viewer.jpg.
+
+Limits: local-browser preview was denied by automatic review because its shared origin had served another project. This iteration was verified on the public Pages site; a fresh mobile browser pass was not performed. The previous approved layout QA at320/375/720/1920px remains documented above. SYBOX's PDF embeds the same1328×929 source as the current site; no higher-resolution source was supplied, and no invented project imagery was substituted. The authentic Metalloinvest SVG colors remain intact.
+
+No new dependency, renderer or idle loop. JS gzip68.88kB versus68.62kB in the preceding build.
+
+final result: passed (build and public desktop interactions); repeat mobile browser QA unavailable
