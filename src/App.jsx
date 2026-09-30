@@ -266,7 +266,13 @@ function ProjectCarousel({ children }) {
     const el = track.current;
     const update = () => {
       const remaining = el.scrollWidth - el.clientWidth - el.scrollLeft;
-      setEdges({ start: el.scrollLeft < 2, end: remaining < 2 });
+      const start = el.scrollLeft < 2;
+      const end = remaining < 2;
+      setEdges((current) =>
+        current.start === start && current.end === end
+          ? current
+          : { start, end },
+      );
     };
     el.addEventListener("scroll", update, { passive: true });
     const resize = new ResizeObserver(update);

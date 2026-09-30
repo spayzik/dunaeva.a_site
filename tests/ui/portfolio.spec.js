@@ -275,6 +275,7 @@ test("slow JavaScript keeps initial mobile layout stable and content readable", 
 }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
+    reducedMotion: "reduce",
   });
   let release;
   const held = new Promise((resolve) => {
@@ -395,6 +396,16 @@ test("project carousel navigates both ways and keeps all stories accessible", as
   }
   await expect(next).toBeDisabled();
   await expect(track.locator(".mini-case")).toHaveCount(5);
+  expect(
+    await track.evaluate((el) => {
+      const rail = el.getBoundingClientRect();
+      const card = el.lastElementChild.getBoundingClientRect();
+      return card.left >= rail.left - 1 && card.right <= rail.right + 1;
+    }),
+  ).toBe(true);
+  // Clicking toolbar controls can scroll the page to the toolbar above the rail.
+  // Bring the last card into the vertical viewport before checking its visibility.
+  await track.locator(".mini-case").last().scrollIntoViewIfNeeded();
   await expect(track.locator(".mini-case").last()).toBeInViewport();
   await previous.click();
   await expect(next).toBeEnabled();
