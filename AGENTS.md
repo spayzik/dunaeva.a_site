@@ -17,3 +17,5 @@ Company logos must identify each named case and available employer clearly. Use 
 Latest feedback: keep the portfolio airy and avoid overload. Use lightweight editorial motion, preserve native scrolling, and protect performance on mobile. The studio shader must be local to the portrait, draw only on demand, pause offscreen/hidden, and be disabled for coarse pointers and reduced motion. Keep case text short, distinguish task and personal contribution, and use only PDF-confirmed dates.
 
 Paper texture approved: use a subtle static grain in the existing warm ivory color correction. Preserve clear text, original photo/logotype colors and the crimson accents. No animated noise, new shader loop or library for this texture.
+
+Use GitHub Pages for public hosting as explicitly requested. DEPLOY_BASE must preserve project-subdirectory asset and PDF URLs. Company wordmarks now replace black display company names in cases/experience where authentic marks exist. Increase desktop separation between the surname and role.

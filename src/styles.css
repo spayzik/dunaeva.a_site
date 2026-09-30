@@ -91,3 +91,16 @@
 
 /* Static paper surface: warm ivory, fine grain; no overlay over type or photos. */
 body{background-color:var(--paper);background-image:url('/assets/paper-ivory.png');background-size:512px 512px;background-repeat:repeat}
+
+/* Company wordmarks replace the display names; no duplicate caption logos. */
+.company-title .brand-logo--heading{width:100%;max-width:360px;height:66px;margin:16px 0 12px}
+.company-title .brand-logo--wildberries{max-width:510px;height:85px}
+.metal-intro .company-title .brand-logo{max-width:100%;height:56px}
+.company-title .brand-logo--sloboda{max-width:210px;height:104px}
+.company-title .brand-logo--sybox{max-width:275px;height:65px}
+.company-title .brand-logo--nrf{max-width:350px;height:76px}
+.timeline .company-title .brand-logo{max-width:290px;height:51px;margin:8px 0 16px}
+.case__identity,.case__identity--stacked,.mini-case__identity{min-height:0;margin-bottom:0}
+.mini-case__identity>.eyebrow{max-width:100%}
+@media(min-width:1101px){.hero h1{margin-bottom:36px}.hero{height:744px}}
+@media(max-width:760px){.company-title .brand-logo--heading{height:55px;max-width:300px;margin:17px 0 16px}.company-title .brand-logo--wildberries{height:54px;max-width:100%}.metal-intro .company-title .brand-logo{height:57px;max-width:285px}.company-title .brand-logo--sloboda{height:91px;max-width:180px}.timeline .company-title .brand-logo{height:43px;max-width:255px}}
