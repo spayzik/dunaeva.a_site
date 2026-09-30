@@ -15,3 +15,5 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 Company logos must identify each named case and available employer clearly. Use authentic downloaded marks at restrained optical sizes, preserve their proportions and colors, and maintain the editorial whitespace. Do not replace them with typed brand names or generic cards.
 
 Latest feedback: keep the portfolio airy and avoid overload. Use lightweight editorial motion, preserve native scrolling, and protect performance on mobile. The studio shader must be local to the portrait, draw only on demand, pause offscreen/hidden, and be disabled for coarse pointers and reduced motion. Keep case text short, distinguish task and personal contribution, and use only PDF-confirmed dates.
+
+Paper texture approved: use a subtle static grain in the existing warm ivory color correction. Preserve clear text, original photo/logotype colors and the crimson accents. No animated noise, new shader loop or library for this texture.
