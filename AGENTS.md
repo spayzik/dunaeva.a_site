@@ -40,4 +40,4 @@ Latest Approach direction supersedes the mesh gradient: use the supplied metabal
 
 Approach refinement: retain the supplied metaball recipe’s field strength, gentle drift and five-tap soft edge, with subtle static grain, a wine/rose palette and alpha capped at 0.36. The point must read as a changing organic form rather than a blurred glow; keep upper-right placement clear of text.
 
-Latest size feedback: enlarge the Approach point about 1.4–1.5×, including the static fallback. Use a 210px-high upper-right canvas, raised to top -45px so its organic form stays above the heading; retain the existing subdued opacity and animation.
+Latest size feedback: enlarge the Approach point about 1.4–1.5×, including the static fallback. Use a 210px-high upper-right canvas, positioned at top -15px/right 0 so the larger organic form has room above and to the right of the heading; retain the existing subdued opacity and animation.
