@@ -30,9 +30,9 @@ test("global cursor trail settles and follows later sections without interceptin
   await page.mouse.move(240, 160, { steps: 8 });
   await expect(canvas).toHaveAttribute("data-state", "active");
   await expect(canvas).toHaveAttribute("data-state", "idle");
-  const frames = await canvas.getAttribute("data-frames");
+  const frames = await canvas.evaluate((el) => el.drawCount || 0);
   await page.waitForTimeout(150);
-  expect(await canvas.getAttribute("data-frames")).toBe(frames);
+  expect(await canvas.evaluate((el) => el.drawCount || 0)).toBe(frames);
   await page.locator(".approach").scrollIntoViewIfNeeded();
   const box = await page.locator(".approach").boundingBox();
   await page.mouse.move(box.x + 120, box.y + 90);
@@ -89,9 +89,9 @@ test("dark shader runs only in view and recovers context loss", async ({
   await expect(canvas).toHaveAttribute("data-state", "ready");
   await page.getByRole("heading", { level: 1 }).scrollIntoViewIfNeeded();
   await expect(canvas).toHaveAttribute("data-state", "paused");
-  const frames = await canvas.getAttribute("data-frames");
+  const frames = await canvas.evaluate((el) => el.drawCount || 0);
   await page.waitForTimeout(150);
-  expect(await canvas.getAttribute("data-frames")).toBe(frames);
+  expect(await canvas.evaluate((el) => el.drawCount || 0)).toBe(frames);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.locator(".approach").scrollIntoViewIfNeeded();
   await expect(canvas).toHaveAttribute("data-state", "paused");

@@ -123,7 +123,7 @@ export function ApproachGlow() {
         );
         gl.uniform1f(resources.blend, 0.5 + Math.sin(t * 0.07) * 0.5);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
-        canvas.dataset.frames = String(++draws);
+        canvas.drawCount = ++draws;
       }
       frame = requestAnimationFrame(tick);
     };

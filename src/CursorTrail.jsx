@@ -47,6 +47,7 @@ export function CursorTrail() {
         return;
       }
       lastDraw = now;
+      const moved = dirty;
       if (dirty) {
         points.push(latest);
         points = points.slice(-12);
@@ -59,7 +60,8 @@ export function CursorTrail() {
         return;
       }
       const head = points[points.length - 1];
-      canvas.style.transform = `translate3d(${head.x - 80}px, ${head.y - 80}px, 0)`;
+      if (moved)
+        canvas.style.transform = `translate3d(${head.x - 80}px, ${head.y - 80}px, 0)`;
       context.lineWidth = 1;
       context.lineCap = "round";
       context.strokeStyle = head.dark ? "#f0d7dd" : "#a50836";
@@ -81,8 +83,8 @@ export function CursorTrail() {
         context.lineTo(80 + to.x - head.x, 80 + to.y - head.y);
         context.stroke();
       }
-      canvas.dataset.frames = String(++draws);
-      canvas.dataset.state = "active";
+      canvas.drawCount = ++draws;
+      if (canvas.dataset.state !== "active") canvas.dataset.state = "active";
       frame = requestAnimationFrame(draw);
     };
     const move = (event) => {
