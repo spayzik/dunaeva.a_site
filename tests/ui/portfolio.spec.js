@@ -59,7 +59,8 @@ test("viewer locks background, keeps inside padding open and restores scroll", a
     .locator("body")
     .evaluate((body) => body.getBoundingClientRect().top);
   await page.mouse.move(1, 1);
-  await page.mouse.wheel(0, 800);
+  if (isMobile) await page.keyboard.press("PageDown");
+  else await page.mouse.wheel(0, 800);
   await expect
     .poll(() =>
       page.locator("body").evaluate((body) => body.getBoundingClientRect().top),
