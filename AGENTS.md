@@ -39,3 +39,5 @@ Latest Approach request: replace the prior glow with a slowly warped mesh gradie
 Latest Approach direction supersedes the mesh gradient: use the supplied metaball field as a small, transparent wine/rose focal point in the upper-right empty area (not beneath the heading). Keep the existing layout, content, perf limits and static fallbacks; no extra full-section gradient animation or cursor interaction.
 
 Approach refinement: retain the supplied metaball recipe’s field strength, gentle drift and five-tap soft edge, with subtle static grain, a wine/rose palette and alpha capped at 0.36. The point must read as a changing organic form rather than a blurred glow; keep upper-right placement clear of text.
+
+Latest size feedback: enlarge the Approach point about 1.4–1.5×, including the static fallback. Use a 210px-high upper-right canvas, raised to top -45px so its organic form stays above the heading; retain the existing subdued opacity and animation.

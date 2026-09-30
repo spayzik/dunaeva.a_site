@@ -694,17 +694,17 @@ button:focus-visible {
 .approach::before {
   content: "";
   position: absolute;
-  right: 4%;
-  top: 12px;
-  width: clamp(160px, 19vw, 250px);
-  height: 150px;
+  right: 2%;
+  top: -45px;
+  width: clamp(220px, 26vw, 340px);
+  height: 210px;
   pointer-events: none;
   background: radial-gradient(
     circle at 50% 50%,
     rgba(171, 64, 92, 0.27) 0,
-    rgba(144, 32, 62, 0.25) 29px,
-    rgba(102, 9, 36, 0.12) 33px,
-    transparent 37px
+    rgba(144, 32, 62, 0.25) 43px,
+    rgba(102, 9, 36, 0.12) 49px,
+    transparent 55px
   );
 }
 .approach:has(.approach-glow[data-state="ready"])::before {
@@ -1591,10 +1591,10 @@ button:focus-visible {
 }
 .approach-glow {
   position: absolute;
-  top: 12px;
-  right: 4%;
-  width: clamp(160px, 19vw, 250px);
-  height: 150px;
+  top: -45px;
+  right: 2%;
+  width: clamp(220px, 26vw, 340px);
+  height: 210px;
   pointer-events: none;
 }
 .approach-glow:not([data-state="ready"]) {
