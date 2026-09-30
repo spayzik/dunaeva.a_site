@@ -39,7 +39,7 @@ function StudioLight() {
     const allowed = matchMedia('(min-width: 761px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
     const el = ref.current, host = el.parentElement;
     if (!allowed.matches || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) { el.dataset.state = 'disabled'; return; }
-    const gl = el.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'low-power' });
+    const gl = el.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'low-power', premultipliedAlpha: true });
     if (!gl) { el.dataset.state = 'unsupported'; return; }
     const compile = (type, source) => {
       const shader = gl.createShader(type);
@@ -48,7 +48,7 @@ function StudioLight() {
       return shader;
     };
     const vertex = compile(gl.VERTEX_SHADER, 'attribute vec2 p; void main(){gl_Position=vec4(p,0.,1.);}');
-    const fragment = compile(gl.FRAGMENT_SHADER, 'precision mediump float; uniform vec2 m; uniform vec2 s; void main(){vec2 u=gl_FragCoord.xy/s; float line=abs(u.x*.85+u.y*.5-(m.x*.35+.48)); float beam=exp(-line*line*55.); float spot=exp(-distance(u,vec2(m.x,1.-m.y))*3.); vec3 tint=mix(vec3(.64,.32,.40),vec3(1.,.97,.91),beam); gl_FragColor=vec4(tint,beam*.18+spot*.035);}');
+    const fragment = compile(gl.FRAGMENT_SHADER, 'precision mediump float; uniform vec2 m; uniform vec2 s; void main(){vec2 u=gl_FragCoord.xy/s; float line=abs(u.x*.85+u.y*.5-(m.x*.35+.48)); float beam=exp(-line*line*55.); float spot=exp(-distance(u,vec2(m.x,1.-m.y))*3.); vec3 tint=mix(vec3(.64,.32,.40),vec3(1.,.97,.91),beam); float alpha=beam*.18+spot*.035; gl_FragColor=vec4(tint*alpha,alpha);}');
     if (!vertex || !fragment) { if (vertex) gl.deleteShader(vertex); if (fragment) gl.deleteShader(fragment); return; }
     const program = gl.createProgram();
     gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);

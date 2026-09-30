@@ -93,3 +93,13 @@ P0/P1/P2 в проверенной области: отсутствуют.
 - Скриншоты: docs/qa/hero-fix/desktop.jpg, mobile.jpg, tablet.jpg. Визуально проверены читаемость, голова/лицо без верхнего обрезания, разделение мобильных блоков и сохранение редакционной композиции.
 - Production build с GitHub Pages base passed. Motion и worker/package tests passed. Shader на физическом GPU и FPS на телефоне не измерялись; в облачном браузере WebGL недоступен. Статичное фото и layout проверены в браузере.
 - final result: passed (hero correction scope)
+
+## Итерация: ошибка прозрачности WebGL и широкий desktop
+
+- Основание: пользовательский скриншот широкого экрана показывает белый прямоугольник в границах hero и почти квадратный крупный кроп портрета. Пользовательский скриншот в репозиторий не копировался.
+- В shader исправлена запись цвета: при premultipliedAlpha=true RGB теперь умножен на alpha. Прежний straight RGB не соответствовал режиму прозрачности canvas и мог давать выбеленный прямоугольник при композитинге на светлом фоне. WebGL-контекст явно задаёт premultipliedAlpha=true.
+- Editorial wrap ограничен 1200px вместо 1510px; hero h1 ограничен 171px вместо 190px. У портрета задан aspect-ratio 4/5 вместо фиксированной высоты с непрерывно растущей шириной. Tablet/mobile правила сохранены.
+- Wide browser QA: iframe 1920×1080, actual clientWidth=scrollWidth=1905 (15px scrollbar); heroWidth=1200, portrait 548.39×685.48, title 171px. Скриншот docs/qa/wide-fix/desktop-1920.jpg подтверждает композицию и кадрирование.
+- Pages production build и worker/package checks passed.
+- Предел проверки: WebGL в облачном браузере unsupported, поэтому исправление режима alpha подтверждено по коду, но GPU-композитинг на ПК пользователя не проверен. Layout и fallback просмотрены в browser.
+- final result: passed (layout/build); GPU rendering unverified
