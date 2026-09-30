@@ -259,94 +259,6 @@ function ProjectImage({ item, className = "mini-case__image", caption }) {
   );
 }
 
-function ProjectCarousel({ children }) {
-  const track = useRef(null);
-  const [edges, setEdges] = useState({ start: true, end: false });
-  useEffect(() => {
-    const el = track.current;
-    const update = () => {
-      const remaining = el.scrollWidth - el.clientWidth - el.scrollLeft;
-      const start = el.scrollLeft < 2;
-      const end = remaining < 2;
-      setEdges((current) =>
-        current.start === start && current.end === end
-          ? current
-          : { start, end },
-      );
-    };
-    el.addEventListener("scroll", update, { passive: true });
-    const resize = new ResizeObserver(update);
-    resize.observe(el);
-    update();
-    return () => {
-      el.removeEventListener("scroll", update);
-      resize.disconnect();
-    };
-  }, []);
-  const move = (direction) => {
-    const el = track.current;
-    const cards = [...el.children];
-    const origin = cards[0].offsetLeft;
-    const positions = cards.map((card) => card.offsetLeft - origin);
-    const target =
-      direction > 0
-        ? (positions.find((x) => x > el.scrollLeft + 2) ?? el.scrollWidth)
-        : (positions.findLast((x) => x < el.scrollLeft - 2) ?? 0);
-    el.scrollTo({
-      left: target,
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "instant"
-        : "smooth",
-    });
-  };
-  return (
-    <div className="project-carousel">
-      <div className="carousel-toolbar">
-        <span>
-          Листайте истории <span aria-hidden="true">↔</span>
-        </span>
-        <div className="carousel-controls">
-          <button
-            type="button"
-            aria-label="Предыдущие проекты"
-            aria-controls="project-track"
-            disabled={edges.start}
-            onClick={() => move(-1)}
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            aria-label="Следующие проекты"
-            aria-controls="project-track"
-            disabled={edges.end}
-            onClick={() => move(1)}
-          >
-            →
-          </button>
-        </div>
-      </div>
-      <div
-        className="case-grid"
-        id="project-track"
-        ref={track}
-        role="region"
-        aria-label="Другие истории — карусель проектов"
-        tabIndex={0}
-        onKeyDown={(event) => {
-          if (event.target !== event.currentTarget) return;
-          if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-            event.preventDefault();
-            move(event.key === "ArrowRight" ? 1 : -1);
-          }
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
 export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const header = useRef(null);
@@ -717,10 +629,15 @@ export function App() {
               Инфлюенс-кампании, спецпроекты и контент с площадки фестиваля.
             </p>
           </div>
-          <ProjectCarousel>
+          <div className="case-grid">
             {cases.map((item, i) => (
               <article
-                className={"mini-case mini-case--" + (i + 1) + " reveal"}
+                className={
+                  "mini-case mini-case--" +
+                  (i + 1) +
+                  (item.no === "07" ? " mini-case--wide" : "") +
+                  " reveal"
+                }
                 key={item.no}
               >
                 <ProjectImage item={item} />
@@ -755,7 +672,7 @@ export function App() {
                 </div>
               </article>
             ))}
-          </ProjectCarousel>
+          </div>
         </section>
         <section className="approach" aria-labelledby="approach-title">
           <div className="wrap approach__inner reveal">

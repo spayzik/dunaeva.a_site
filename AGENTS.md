@@ -24,4 +24,4 @@ Wide desktop correction: cap the editorial content width at 1200px and the hero 
 
 Audit refinements approved: on mobile show the role and actions before the portrait; add a compact resume link, expose the confirmed GMV ×3 result in the main WB case, normalize optical logo sizes without recoloring, allow full project images in a native dialog, and make NRF a deliberate final row. Preserve all seven projects and facts. No new decorative images or shader loops.
 
-Latest project-layout feedback: make “Другие истории” a compact native horizontal carousel with arrows/swipe, a modest 28px desktop / 14px mobile stagger, and no large empty gaps. Preserve the two featured cases, all seven projects and source facts. No autoplay or animation loop. This supersedes the earlier standalone NRF final-row layout.
+Latest project-layout feedback: keep the original two-column editorial grid, NOT a carousel. VkusVill starts higher; neighboring right-column stories sit slightly lower (28px desktop / 18px tablet). Preserve the original full-width NRF final row. On single-column mobile remove the stagger. This supersedes the carousel experiment; keep all audit fixes and source facts.
