@@ -116,3 +116,8 @@ Fonts and copy remain unchanged. Warm ivory/crimson object fits the charcoal sec
 Production build and all 4 Sites packaging tests passed. Browser console showed only older browser-extension metadata errors, no new site errors during this check. No open P0/P1/P2 findings.
 
 final result: passed
+
+
+## Remove paper sculpture — 2026-09-30
+User rejected the decorative trial. App JSX, styles and project guidance restored exactly to the preceding deployed version 81b6fc4. Removed unused paper-sculpture.webp. Existing photos, signatures, logos and text remain as before.
+final result: passed

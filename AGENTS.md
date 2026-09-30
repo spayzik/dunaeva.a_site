@@ -21,5 +21,3 @@ Paper texture approved: use a subtle static grain in the existing warm ivory col
 Use GitHub Pages for public hosting as explicitly requested. DEPLOY_BASE must preserve project-subdirectory asset and PDF URLs. Company wordmarks now replace black display company names in cases/experience where authentic marks exist. Increase desktop separation between the surname and role.
 
 Wide desktop correction: cap the editorial content width at 1200px and the hero name at 171px. The portrait uses a 4:5 frame rather than growing wider at a fixed 680px height. The transparent WebGL surface uses explicitly premultiplied alpha; RGB must be multiplied by alpha to avoid an opaque white rectangle on GPU-enabled browsers.
-
-Paper sculpture trial: user chose the first generated artwork, asked for true transparency and discreet desktop/mobile placement. Use it once in the approach section, off the text area, small beside the label on mobile; preserve copy and avoid extra animation. This is decorative art, not project evidence.
