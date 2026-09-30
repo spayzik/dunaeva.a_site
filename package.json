@@ -5,18 +5,27 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "build": "vite build && vite build --ssr src/App.jsx --outDir dist/prerender && node scripts/prerender.mjs && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
     "test:motion": "node --test tests/motion.test.mjs",
-    "test:sites": "node --test tests/sites-worker.test.mjs"
+    "test:sites": "node --test tests/sites-worker.test.mjs",
+    "test:ui": "playwright test",
+    "test": "npm run test:motion && npm run test:sites && npm run test:build && npm run test:ui",
+    "format": "prettier --write src scripts tests index.html vite.config.mjs playwright.config.js package.json .github/workflows/pages.yml",
+    "format:check": "prettier --check src scripts tests index.html vite.config.mjs playwright.config.js package.json .github/workflows/pages.yml",
+    "test:build": "node --test tests/build.test.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/oswald": "^5.3.0",
-    "@vitejs/plugin-react": "5.0.4",
     "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "vite": "6.4.2"
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@vitejs/plugin-react": "5.0.4",
+    "prettier": "3.9.9",
+    "vite": "6.4.3"
   }
 }

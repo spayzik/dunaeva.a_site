@@ -2,8 +2,15 @@ export default {
   async fetch(request, env) {
     const response = await env.ASSETS.fetch(request);
     const acceptsHtml = request.headers.get("accept")?.includes("text/html");
+    const pathname = new URL(request.url).pathname;
+    const isApi = pathname === "/api" || pathname.startsWith("/api/");
 
-    if (response.status !== 404 || !acceptsHtml || !["GET", "HEAD"].includes(request.method)) {
+    if (
+      response.status !== 404 ||
+      isApi ||
+      !acceptsHtml ||
+      !["GET", "HEAD"].includes(request.method)
+    ) {
       return response;
     }
 

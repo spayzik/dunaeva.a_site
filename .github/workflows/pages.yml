@@ -23,10 +23,23 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm audit --audit-level=moderate
       - run: npm run build
         env:
           DEPLOY_BASE: /dunaeva.a_site/
-      - run: npm run test:motion && npm run test:sites
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm test
+        env:
+          DEPLOY_BASE: /dunaeva.a_site/
+      - name: Save browser test report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: browser-test-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 14
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
