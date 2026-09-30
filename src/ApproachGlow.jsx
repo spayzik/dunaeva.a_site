@@ -2,25 +2,42 @@ import { useEffect, useRef } from "react";
 
 const vertex = "attribute vec2 p; void main(){gl_Position=vec4(p,0.,1.);}";
 // Metaball field adapted from the supplied 21st.dev Shader Builder reference.
-const fragment = `precision mediump float;
+const fragment = `#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
 uniform vec2 size; uniform float time;
-void main(){
-  vec2 p=(gl_FragCoord.xy-.5*size)/min(size.x,size.y)*2.5;
-  float t=time*.22;
+float fieldAt(vec2 p,float t){
   float field=0.;
   for(int i=0;i<5;i++){
     float fi=float(i);
     vec2 c=vec2(sin(t*(.3+fi*.11)+fi*2.+1.),
                 cos(t*(.23+fi*.13)+fi*1.3))*.55;
-    field+=.055/(dot(p-c,p-c)+.003);
+    field+=(.04+.59*.06)/(dot(p-c,p-c)+.003);
   }
-  float body=smoothstep(.4,1.25,field);
+  return smoothstep(.4,1.9-.5*1.3,field);
+}
+void main(){
+  vec2 p=(gl_FragCoord.xy-.5*size)/min(size.x,size.y)*2.5;
+  float t=time*.42;
+  p+=.028*vec2(sin(t*.31),cos(t*.23));
+  // The supplied recipe's five-tap blur keeps a defined, gently changing edge.
+  float e=.0156*2.5;
+  float body=fieldAt(p,t)*.36;
+  body+=fieldAt(p+vec2(e,0.),t)*.16;
+  body+=fieldAt(p-vec2(e,0.),t)*.16;
+  body+=fieldAt(p+vec2(0.,e),t)*.16;
+  body+=fieldAt(p-vec2(0.,e),t)*.16;
   vec3 wine=vec3(.40,.035,.14);
-  vec3 rose=vec3(.67,.24,.35);
-  vec3 color=mix(wine,rose,smoothstep(.6,1.9,field));
-  float rim=body*(1.-smoothstep(1.1,2.5,field));
-  color+=vec3(.10,.07,.065)*rim;
-  float alpha=body*.48;
+  vec3 rose=vec3(.66,.25,.36);
+  vec3 color=mix(wine,rose,smoothstep(.15,.8,body));
+  color=mix(color,vec3(.78,.56,.57),smoothstep(.88,1.,body)*.16);
+  vec3 grainSeed=fract(vec3(gl_FragCoord.xyx)*.1031);
+  grainSeed+=dot(grainSeed,grainSeed.yzx+33.33);
+  float grain=fract((grainSeed.x+grainSeed.y)*grainSeed.z)-.5;
+  color+=grain*.025;
+  float alpha=body*.36;
   gl_FragColor=vec4(color*alpha,alpha);
 }`;
 

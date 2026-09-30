@@ -701,9 +701,10 @@ button:focus-visible {
   pointer-events: none;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(171, 61, 89, 0.3) 0,
-    rgba(102, 9, 36, 0.22) 25px,
-    transparent 46px
+    rgba(171, 64, 92, 0.27) 0,
+    rgba(144, 32, 62, 0.25) 29px,
+    rgba(102, 9, 36, 0.12) 33px,
+    transparent 37px
   );
 }
 .approach:has(.approach-glow[data-state="ready"])::before {

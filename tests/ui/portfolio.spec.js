@@ -72,6 +72,37 @@ test("dark shader runs only in view and recovers context loss", async ({
   expect(
     await canvas.evaluate((el) => el.width <= 720 && el.height <= 420),
   ).toBe(true);
+  const sample = () =>
+    canvas.evaluate((el) => {
+      const gl = el.getContext("webgl");
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      const pixels = new Uint8Array(el.width * el.height * 4);
+      gl.readPixels(
+        0,
+        0,
+        el.width,
+        el.height,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        pixels,
+      );
+      let visible = 0,
+        maxAlpha = 0,
+        signature = 0;
+      for (let i = 3; i < pixels.length; i += 4) {
+        const alpha = pixels[i];
+        if (alpha > 8) visible++;
+        maxAlpha = Math.max(maxAlpha, alpha);
+        signature += alpha * ((i % 97) + 1);
+      }
+      return { visible, maxAlpha, signature };
+    });
+  const initial = await sample();
+  expect(initial.visible).toBeGreaterThan(100);
+  expect(initial.maxAlpha).toBeLessThanOrEqual(93);
+  await expect
+    .poll(async () => (await sample()).signature)
+    .not.toBe(initial.signature);
   expect(
     await canvas.evaluate((el) => {
       const ext = el.getContext("webgl").getExtension("WEBGL_lose_context");

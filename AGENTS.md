@@ -37,3 +37,5 @@ Latest hero feedback: the final A in Александра must stay clear of the
 Latest Approach request: replace the prior glow with a slowly warped mesh gradient inspired by the supplied React example. Keep it transparent, subdued wine/mauve, behind all content; preserve bounded resolution, 24fps cap, visibility lifecycle and mobile/reduced-motion fallbacks. Reuse the existing shader renderer without adding framework or shader dependencies.
 
 Latest Approach direction supersedes the mesh gradient: use the supplied metaball field as a small, transparent wine/rose focal point in the upper-right empty area (not beneath the heading). Keep the existing layout, content, perf limits and static fallbacks; no extra full-section gradient animation or cursor interaction.
+
+Approach refinement: retain the supplied metaball recipe’s field strength, gentle drift and five-tap soft edge, with subtle static grain, a wine/rose palette and alpha capped at 0.36. The point must read as a changing organic form rather than a blurred glow; keep upper-right placement clear of text.
