@@ -33,16 +33,27 @@ const jobs = [
 const Arrow = ({diagonal=false}) => <span className="arrow" aria-hidden="true">{diagonal ? '↗' : '→'}</span>;
 const Label = ({children, index}) => <div className="section-label"><span className="section-label__rule"/><span>{children}</span>{index && <span className="section-label__index">{index}</span>}</div>;
 
-function ProjectImage({ item }) {
+const imageSizes = {
+  'wildberries-campaign.jpg': [2307, 1081], 'wildberries-post.jpg': [1280, 1280],
+  'metalloinvest-hr.jpg': [1600, 900], 'metalloinvest-stories.jpg': [1727, 909],
+  'vkusvill.jpg': [1862, 816], 'sybox-cat.jpg': [1328, 929],
+  'sloboda.jpg': [1813, 974], 'nrf.jpg': [781, 581],
+};
+function ProjectImage({ item, className = 'mini-case__image', caption }) {
   const dialog = useRef(null);
+  const [opened, setOpened] = useState(false);
+  const [width, height] = imageSizes[item.image];
   return <>
-    <button className="mini-case__image image-open" aria-label={'Рассмотреть материалы проекта ' + item.name} aria-haspopup="dialog" onClick={() => dialog.current.showModal()}>
-      <img src={asset(item.image)} alt={item.alt} loading="lazy"/>
-      <span>{item.no} / 07</span><span className="image-open__hint">Рассмотреть ↗</span>
+    <button type="button" className={className + ' image-open'} aria-label={'Рассмотреть материалы проекта ' + item.name} aria-haspopup="dialog" onClick={() => { setOpened(true); dialog.current.showModal(); }}>
+      <img src={asset(item.image)} alt={item.alt} width={width} height={height} loading="lazy" decoding="async"/>
+      {item.no && <span>{item.no} / 07</span>}
+      {caption && <span className="image-open__caption">{caption}</span>}
+      <span className="image-open__hint" aria-hidden="true">↗</span>
     </button>
-    <dialog className="image-dialog" ref={dialog} aria-label={'Материалы проекта ' + item.name} onClick={event => { if (event.target === dialog.current) dialog.current.close(); }}>
+    <dialog className="image-dialog" ref={dialog} aria-label={'Материалы проекта ' + item.name} onClose={() => setOpened(false)} onClick={event => { if (event.target === dialog.current) dialog.current.close(); }}>
       <div className="image-dialog__bar"><p>{item.name}</p><form method="dialog"><button autoFocus>Закрыть <span aria-hidden="true">×</span></button></form></div>
-      <img src={asset(item.image)} alt={item.alt} loading="lazy" decoding="async"/>
+      {opened && <img src={asset(item.image)} alt={item.alt} width={width} height={height} decoding="async"/>}
+      <a className="image-dialog__original" href={asset(item.image)} target="_blank" rel="noopener noreferrer">Открыть оригинал <Arrow diagonal/></a>
     </dialog>
   </>;
 }
@@ -146,11 +157,11 @@ export function App() {
         <Label index="01 / 07">Избранные проекты</Label>
         <article className="case case--wildberries reveal" id="wildberries">
           <div className="case__top"><div><div className="case__identity"><span className="case__no">01 / Стратегия и рост</span></div><h2 className="company-title"><BrandLogo name="Wildberries" heading/></h2><p className="case__subtitle">Разработка и реализация SMM-стратегии</p></div><p className="case__aside">Лидирую команду из 8 человек: выстраиваю SMM-стратегию, запускаю коллаборации и связываю контент с бизнес-метриками.</p></div>
-          <div className="wild-layout"><div className="wild-media"><img src={asset('wildberries-campaign.jpg')} alt="Материалы кампании Wildberries в фирменной цветовой палитре" loading="lazy"/><span>Материалы из портфолио / Wildberries</span></div><div className="wild-stat"><span className="eyebrow">Telegram / подписчики</span><div className="wild-stat__old">150 000</div><div className="wild-stat__arrow" aria-hidden="true">⟶</div><div className="wild-stat__new">550 000</div><span className="eyebrow wild-stat__period">I полугодие 2026</span><div className="wild-business"><strong>×3</strong><p>GMV из соцсетей<span>I полугодие 2026</span></p></div></div></div>
+          <div className="wild-layout"><ProjectImage className="wild-media" item={{name:"Wildberries — SMM-стратегия", image:"wildberries-campaign.jpg", alt:"Материалы кампании Wildberries в фирменной цветовой палитре"}} caption="Материалы из портфолио / Wildberries"/><div className="wild-stat"><span className="eyebrow">Telegram / подписчики</span><div className="wild-stat__old">150 000</div><div className="wild-stat__arrow" aria-hidden="true">⟶</div><div className="wild-stat__new">550 000</div><span className="eyebrow wild-stat__period">I полугодие 2026</span><div className="wild-business"><strong>×3</strong><p>GMV из соцсетей<span>I полугодие 2026</span></p></div></div></div>
           <details className="case-expand"><summary>Подробнее о стратегии <span aria-hidden="true">+</span></summary><div className="case__details"><p><span className="copy-label">Решение</span>Обновила позиционирование и визуальную систему, выстроила продвижение через контент, таргетинг, посевы, бренд-интеграции и инструменты экосистемы.</p><div className="micro-stats"><div><strong>500 000</strong><span>подписчиков в MAX<br/>с нуля</span></div><div><strong>15 млн</strong><span>охват ВК<br/>было 1,6 млн</span></div><div><strong>4,6 млн</strong><span>охват ОК<br/>было 900 тыс.</span></div><div><strong>2,6 млн</strong><span>дополнительный охват<br/>в месяц от новых каналов</span></div></div></div>
-          <div className="case__substory"><img src={asset('wildberries-post.jpg')} alt="Креатив Wildberries для партнерской публикации" loading="lazy"/><div><span className="eyebrow">Креатив в экосистеме</span><h3>Бренд-интеграции,<br/>которые работают</h3><p>Партнерские подарки для розыгрышей, коллаборация с «Пятницей» и поддержка фильма «Яга на нашу голову». Интеграция с «Пятницей» привела более 50 тысяч новых подписчиков в Telegram, а кампания фильма повысила вовлеченность в 1,5 раза. Совместный контентный проект с Банком России добавил еще 15 тысяч подписчиков.</p></div></div></details>
+          <div className="case__substory"><ProjectImage className="substory-media" item={{name:"Wildberries — бренд-интеграции", image:"wildberries-post.jpg", alt:"Креатив Wildberries для партнерской публикации"}}/><div><span className="eyebrow">Креатив в экосистеме</span><h3>Бренд-интеграции,<br/>которые работают</h3><p>Партнерские подарки для розыгрышей, коллаборация с «Пятницей» и поддержка фильма «Яга на нашу голову». Интеграция с «Пятницей» привела более 50 тысяч новых подписчиков в Telegram, а кампания фильма повысила вовлеченность в 1,5 раза. Совместный контентный проект с Банком России добавил еще 15 тысяч подписчиков.</p></div></div></details>
         </article>
-        <article className="case case--metal reveal" id="metalloinvest"><div className="metal-intro"><div><div className="case__identity case__identity--stacked"><span className="case__no">02 / HR-кампания</span></div><h2 className="company-title"><BrandLogo name="Металлоинвест" heading/></h2><p className="case__subtitle">Найти людей для трех комбинатов</p><p><span className="copy-label">Мой вклад</span>Распределяла бюджет, выбирала площадки, согласовывала и оптимизировала медиаплан и креативы для МГОК, ЛГОК и ОЭМК. Вела коммуникацию с клиентом.</p></div><img src={asset('metalloinvest-hr.jpg')} alt="Креатив HR-кампании Металлоинвест с сотрудником производства" loading="lazy"/><div className="metal-results"><span className="eyebrow">Результат за 2 месяца</span><strong>1 015</strong><span className="eyebrow">заявок</span><span className="red-stroke red-stroke--small"/><p>7 348 491 показ<br/>36 910 переходов<br/>2 156 звонков</p></div></div></article>
+        <article className="case case--metal reveal" id="metalloinvest"><div className="metal-intro"><div><div className="case__identity case__identity--stacked"><span className="case__no">02 / HR-кампания</span></div><h2 className="company-title"><BrandLogo name="Металлоинвест" heading/></h2><p className="case__subtitle">Найти людей для трех комбинатов</p><p><span className="copy-label">Мой вклад</span>Распределяла бюджет, выбирала площадки, согласовывала и оптимизировала медиаплан и креативы для МГОК, ЛГОК и ОЭМК. Вела коммуникацию с клиентом.</p></div><ProjectImage className="metal-media" item={{name:"Металлоинвест — HR-кампания", image:"metalloinvest-hr.jpg", alt:"Креатив HR-кампании Металлоинвест с сотрудником производства"}}/><div className="metal-results"><span className="eyebrow">Результат за 2 месяца</span><strong>1 015</strong><span className="eyebrow">заявок</span><span className="red-stroke red-stroke--small"/><p>7 348 491 показ<br/>36 910 переходов<br/>2 156 звонков</p></div></div></article>
         <div className="more-heading reveal"><Label index="03 — 07">Другие истории</Label><h2>Идеи, которые<br/><em>вышли в мир.</em></h2><p>Инфлюенс-кампании, спецпроекты и контент с площадки фестиваля.</p></div>
         <div className="case-grid">{cases.map((item,i)=><article className={'mini-case mini-case--'+(i+1)+(item.no === '07' ? ' mini-case--wide' : '')+' reveal'} key={item.no}><ProjectImage item={item}/><div className="mini-case__body"><div className="mini-case__heading"><div className="mini-case__identity"><span className="eyebrow">{item.kind}</span></div><h3 className="company-title"><BrandLogo name={item.name} heading/></h3></div><div className="mini-case__copy"><p><span className="copy-label">Задача</span>{item.task}</p><p><span className="copy-label">Мой вклад</span>{item.role}</p></div><div className="mini-case__results">{item.stats.map(([value,label])=><div key={value}><strong>{value}</strong><span>{label}</span></div>)}</div>{item.note&&<p className="mini-case__note">{item.note}</p>}</div></article>)}</div>
       </section>
