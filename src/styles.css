@@ -12,17 +12,13 @@
 @import "@fontsource/cormorant-garamond/cyrillic-500.css";
 @import "@fontsource/cormorant-garamond/latin-600.css";
 @import "@fontsource/cormorant-garamond/cyrillic-600.css";
-@import "@fontsource/ibm-plex-mono/latin-400.css";
-@import "@fontsource/ibm-plex-mono/cyrillic-400.css";
-@import "@fontsource/ibm-plex-mono/latin-500.css";
-@import "@fontsource/ibm-plex-mono/cyrillic-500.css";
 @import "@fontsource/cormorant-garamond/latin-400-italic.css";
 @import "@fontsource/cormorant-garamond/cyrillic-400-italic.css";
 
 :root {
   --font-body: "Cormorant Garamond", serif;
   --font-display: "Oswald", sans-serif;
-  --font-meta: "IBM Plex Mono", monospace;
+  --font-meta: var(--font-display);
   font-family: var(--font-body);
   color: #121110;
   background: #f7f5ef;
