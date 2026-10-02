@@ -39,7 +39,7 @@ const cases = [
     no: "03",
     name: "ВкусВилл",
     kind: "Инфлюенс-маркетинг",
-    image: "vkusvill.jpg",
+    image: "vkusvill-influencers.jpg",
     alt: "Визуал кампании ВкусВилл",
     task: "Привлечь покупателей в магазины Челябинска и к продуктам СТМ.",
     role: "Разработала концепцию коммуникации, согласовала 50 блогеров и сценарии.",
@@ -83,6 +83,11 @@ const cases = [
     kind: "Ребрендинг соцсетей",
     image: "sloboda.jpg",
     alt: "Контент и упаковка соцсетей бренда Слобода",
+    extraImage: {
+      name: "Слобода — контентная съёмка",
+      image: "sloboda-shoot.jpg",
+      alt: "Контентная съёмка продуктов Слобода: пикник с томатным соусом",
+    },
     task: "Ребрендинг соцсетей и новая контент-стратегия.",
     role: "Лидировала команду, подбирала подрядчиков для съемок и защищала стратегию.",
     stats: [["+64 000", "подписчиков органически за первый год"]],
@@ -134,10 +139,28 @@ const jobs = [
       "В проекте блогера охваты выросли на 30%. В отдельном проекте онлайн-школы доходимость учеников составила 78%.",
   },
 ];
-const Arrow = ({ diagonal = false }) => (
-  <span className="arrow" aria-hidden="true">
-    {diagonal ? "↗" : "→"}
-  </span>
+const Arrow = ({ diagonal = false, up = false }) => (
+  <svg
+    className="arrow"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d={
+        up
+          ? "M12 20V4M5 11l7-7 7 7"
+          : diagonal
+            ? "M5 19L19 5M6 5h13v13"
+            : "M3 12h18M14 5l7 7-7 7"
+      }
+    />
+  </svg>
 );
 const Label = ({ children, index }) => (
   <div className="section-label">
@@ -148,12 +171,12 @@ const Label = ({ children, index }) => (
 );
 
 const imageSizes = {
-  "wildberries-campaign.jpg": [2307, 1081],
+  "vkusvill-influencers.jpg": [2307, 1081],
   "wildberries-post.jpg": [1280, 1280],
   "wildberries-instagram.jpg": [1206, 756],
   "metalloinvest-hr.jpg": [1600, 900],
   "metalloinvest-stories.jpg": [1727, 909],
-  "vkusvill.jpg": [1862, 816],
+  "sloboda-shoot.jpg": [1862, 816],
   "sybox-cat.jpg": [1328, 929],
   "sloboda.jpg": [1813, 974],
   "nrf.jpg": [781, 581],
@@ -204,12 +227,12 @@ function ProjectImage({ item, className = "mini-case__image", caption }) {
         {item.no && <span>{item.no} / 07</span>}
         {caption && <span className="image-open__caption">{caption}</span>}
         <span className="image-open__hint" aria-hidden="true">
-          ↗
+          <Arrow diagonal />
         </span>
       </button>
       <noscript>
         <a className="image-fallback" href={asset(item.image)}>
-          Рассмотреть материалы проекта {item.name} ↗
+          Рассмотреть материалы проекта {item.name} <Arrow diagonal />
         </a>
       </noscript>
       <dialog
@@ -444,8 +467,8 @@ export function App() {
                 className="wild-media"
                 item={{
                   name: "Wildberries — SMM-стратегия",
-                  image: "wildberries-campaign.jpg",
-                  alt: "Материалы кампании Wildberries в фирменной цветовой палитре",
+                  image: "wildberries-instagram.jpg",
+                  alt: "Профиль Wildberries Official из портфолио",
                 }}
                 caption="Материалы из портфолио / Wildberries"
               />
@@ -453,7 +476,7 @@ export function App() {
                 <span className="eyebrow">Telegram / подписчики</span>
                 <div className="wild-stat__old">150 000</div>
                 <div className="wild-stat__arrow" aria-hidden="true">
-                  ⟶
+                  <Arrow />
                 </div>
                 <div className="wild-stat__new">550 000</div>
                 <span className="eyebrow wild-stat__period">
@@ -672,6 +695,17 @@ export function App() {
                     ))}
                   </div>
                   {item.note && <p className="mini-case__note">{item.note}</p>}
+                  {item.extraImage && (
+                    <details className="case-material">
+                      <summary>
+                        Ещё материал: контентная съёмка <Arrow diagonal />
+                      </summary>
+                      <ProjectImage
+                        item={item.extraImage}
+                        className="case-material__image"
+                      />
+                    </details>
+                  )}
                 </div>
               </article>
             ))}
@@ -803,13 +837,15 @@ export function App() {
             </div>
             <div className="contact__footer">
               <span>© Александра Дунаева, 2026</span>
-              <a href="#top">Наверх ↑</a>
+              <a href="#top">
+                Наверх <Arrow up />
+              </a>
               <a
                 href={documentUrl("portfolio.pdf")}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Портфолио PDF ↗
+                Портфолио PDF <Arrow diagonal />
               </a>
             </div>
           </div>

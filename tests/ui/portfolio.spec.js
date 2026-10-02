@@ -129,12 +129,13 @@ test("dark shader runs only in view and recovers context loss", async ({
   await expect(canvas).toBeHidden();
 });
 
-test("all nine project viewers open, close and restore focus", async ({
+test("all ten project viewers open, close and restore focus", async ({
   page,
 }) => {
   await page.locator(".case-expand summary").click();
+  await page.locator(".case-material summary").click();
   const triggers = page.locator(".image-open");
-  await expect(triggers).toHaveCount(9);
+  await expect(triggers).toHaveCount(10);
   for (const trigger of await triggers.all()) {
     await trigger.click();
     const dialog = page.locator(".image-dialog[open]");
@@ -364,7 +365,7 @@ test("static HTML remains usable when JavaScript is unavailable", async ({
   ).toBeVisible();
   await page.locator(".case-expand summary").click();
   await expect(page.locator(".strategy-proof")).toBeVisible();
-  await expect(page.locator(".image-fallback")).toHaveCount(9);
+  await expect(page.locator(".image-fallback")).toHaveCount(10);
   await expect(page.locator(".contact__links a")).toHaveCount(2);
   await context.close();
 });

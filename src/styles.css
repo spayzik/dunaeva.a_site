@@ -20,7 +20,10 @@
 @import "@fontsource/cormorant-garamond/cyrillic-400-italic.css";
 
 :root {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Cormorant Garamond", serif;
+  --font-display: "Oswald", sans-serif;
+  --font-meta: "IBM Plex Mono", monospace;
+  font-family: var(--font-body);
   color: #121110;
   background: #f7f5ef;
   font-synthesis: none;
@@ -90,7 +93,7 @@ button:focus-visible {
 .timeline__index,
 .contact__top > span,
 .contact__footer {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: var(--font-meta);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 11px;
@@ -162,11 +165,23 @@ button:focus-visible {
   color: var(--red);
 }
 .arrow {
-  font-family: Arial, sans-serif;
-  font-size: 23px;
-  line-height: 0.6;
-  font-weight: 300;
-  letter-spacing: 0;
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.image-open__hint .arrow {
+  width: 18px;
+  height: 18px;
+}
+.wild-stat__arrow .arrow {
+  width: 32px;
+  height: 22px;
+}
+.contact__footer .arrow {
+  width: 15px;
+  height: 15px;
 }
 
 .hero {
@@ -226,7 +241,7 @@ button:focus-visible {
 .more-heading h2,
 .experience h2,
 .contact h2 {
-  font-family: Oswald, Impact, "Arial Narrow", sans-serif;
+  font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: -0.052em;
   font-weight: 700;
@@ -326,7 +341,8 @@ button:focus-visible {
 .wild-media img {
   width: 100%;
   height: 330px;
-  object-fit: cover;
+  background: #fff;
+  object-fit: contain;
   object-position: center;
   transition: transform 0.7s;
 }
@@ -351,7 +367,7 @@ button:focus-visible {
 }
 .wild-stat__old,
 .wild-stat__new {
-  font-family: Oswald, sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.045em;
   line-height: 1;
@@ -359,7 +375,7 @@ button:focus-visible {
   white-space: nowrap;
 }
 .wild-stat__arrow {
-  font-family: Georgia, serif;
+  font-family: var(--font-body);
   color: var(--red);
   font-size: 32px;
   line-height: 0.6;
@@ -392,10 +408,7 @@ button:focus-visible {
   gap: 7px;
 }
 .case-expand__title {
-  font:
-    500 clamp(32px, 3.2vw, 43px)/1.08 "Cormorant Garamond",
-    Georgia,
-    serif;
+  font: 500 clamp(32px, 3.2vw, 43px)/1.08 var(--font-body);
   letter-spacing: -0.025em;
   color: var(--ink);
 }
@@ -404,10 +417,7 @@ button:focus-visible {
   font-weight: 500;
 }
 .case-expand__caption {
-  font:
-    400 18px/1.3 "Cormorant Garamond",
-    Georgia,
-    serif;
+  font: 400 18px/1.3 var(--font-body);
   color: #625a54;
 }
 .case-expand__toggle {
@@ -417,9 +427,7 @@ button:focus-visible {
   height: 52px;
   border: 1px solid var(--red);
   border-radius: 50%;
-  font:
-    300 30px/1 Arial,
-    sans-serif;
+  font: 300 30px/1 var(--font-meta);
   color: var(--red);
   transition:
     transform 0.25s,
@@ -463,9 +471,7 @@ button:focus-visible {
   padding-top: 12px;
 }
 .micro-stats strong {
-  font:
-    600 clamp(24px, 3vw, 44px)/1 Oswald,
-    sans-serif;
+  font: 600 clamp(24px, 3vw, 44px)/1 var(--font-display);
   display: block;
   white-space: nowrap;
 }
@@ -490,9 +496,7 @@ button:focus-visible {
   object-fit: cover;
 }
 .case__substory h3 {
-  font:
-    500 clamp(32px, 4vw, 60px)/0.94 "Cormorant Garamond",
-    serif;
+  font: 500 clamp(32px, 4vw, 60px)/0.94 var(--font-body);
   margin: 12px 0;
 }
 .case__substory p {
@@ -537,9 +541,7 @@ button:focus-visible {
   padding: 6px 0;
 }
 .metal-results strong {
-  font:
-    700 clamp(70px, 8.3vw, 130px)/1 Oswald,
-    sans-serif;
+  font: 700 clamp(70px, 8.3vw, 130px)/1 var(--font-display);
   letter-spacing: -0.06em;
   color: var(--red);
   display: block;
@@ -573,10 +575,7 @@ button:focus-visible {
   margin: 0;
 }
 .more-heading em {
-  font:
-    italic 500 1.08em/0.9 "Cormorant Garamond",
-    Georgia,
-    serif;
+  font: italic 500 1.08em/0.9 var(--font-body);
   letter-spacing: -0.06em;
   text-transform: none;
   color: var(--red);
@@ -618,9 +617,7 @@ button:focus-visible {
   top: 16px;
   left: 16px;
   background: var(--paper);
-  font:
-    500 10px "IBM Plex Mono",
-    monospace;
+  font: 500 10px var(--font-meta);
   letter-spacing: 0.14em;
   padding: 8px;
 }
@@ -635,17 +632,13 @@ button:focus-visible {
   align-items: center;
 }
 .mini-case__heading h3 {
-  font:
-    600 clamp(40px, 4vw, 65px)/1 Oswald,
-    sans-serif;
+  font: 600 clamp(40px, 4vw, 65px)/1 var(--font-display);
   text-transform: uppercase;
   letter-spacing: -0.045em;
   margin: 8px 0;
 }
 .mini-case__heading > span {
-  font:
-    300 32px Arial,
-    sans-serif;
+  font: 300 32px var(--font-meta);
   color: var(--red);
 }
 .mini-case__body > p {
@@ -666,9 +659,7 @@ button:focus-visible {
 }
 .mini-case__results strong {
   display: block;
-  font:
-    600 clamp(25px, 3vw, 44px)/1 Oswald,
-    sans-serif;
+  font: 600 clamp(25px, 3vw, 44px)/1 var(--font-display);
   color: var(--red);
   white-space: nowrap;
 }
@@ -720,19 +711,14 @@ button:focus-visible {
   gap: 70px 4%;
 }
 .approach__kicker {
-  font:
-    500 12px "IBM Plex Mono",
-    monospace;
+  font: 500 12px var(--font-meta);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: #c8bcb8;
   margin: 4px 0 28px;
 }
 .approach h2 {
-  font:
-    500 clamp(56px, 7vw, 110px)/0.98 "Cormorant Garamond",
-    Georgia,
-    serif;
+  font: 500 clamp(56px, 7vw, 110px)/0.98 var(--font-body);
   letter-spacing: -0.045em;
   max-width: 1100px;
   margin: 0;
@@ -751,9 +737,7 @@ button:focus-visible {
   padding-top: 22px;
 }
 .approach__bottom span {
-  font:
-    400 10px/1.6 "IBM Plex Mono",
-    monospace;
+  font: 400 10px/1.6 var(--font-meta);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   width: 35%;
@@ -809,9 +793,7 @@ button:focus-visible {
   font-size: 9px;
 }
 .timeline h3 {
-  font:
-    600 clamp(32px, 3.5vw, 54px)/1 Oswald,
-    sans-serif;
+  font: 600 clamp(32px, 3.5vw, 54px)/1 var(--font-display);
   text-transform: uppercase;
   letter-spacing: -0.04em;
   margin: 5px 0 10px;
@@ -827,9 +809,7 @@ button:focus-visible {
   margin: 15px 0;
 }
 .timeline__details strong {
-  font:
-    500 18px Oswald,
-    sans-serif;
+  font: 500 18px var(--font-display);
   color: var(--red);
 }
 .education {
@@ -865,10 +845,7 @@ button:focus-visible {
   margin: 85px 0 95px;
 }
 .contact h2 em {
-  font:
-    italic 500 0.92em/0.9 "Cormorant Garamond",
-    Georgia,
-    serif;
+  font: italic 500 0.92em/0.9 var(--font-body);
   text-transform: none;
   letter-spacing: -0.05em;
 }
@@ -896,9 +873,7 @@ button:focus-visible {
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.65);
   padding: 19px 0;
-  font:
-    500 clamp(23px, 2.8vw, 38px)/1 "Cormorant Garamond",
-    serif;
+  font: 500 clamp(23px, 2.8vw, 38px)/1 var(--font-body);
   transition:
     padding 0.25s,
     background 0.25s;
@@ -1002,14 +977,12 @@ button:focus-visible {
     border: 0;
     background: none;
     padding: 10px 0;
-    font:
-      500 11px "IBM Plex Mono",
-      monospace;
+    font: 500 11px var(--font-meta);
     text-transform: uppercase;
     letter-spacing: 0.12em;
   }
   .menu-toggle span {
-    font: 300 20px Arial;
+    font: 300 20px var(--font-meta);
   }
   .nav {
     display: none;
@@ -1669,9 +1642,7 @@ button:focus-visible {
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  font:
-    500 12px "IBM Plex Mono",
-    monospace;
+  font: 500 12px var(--font-meta);
   letter-spacing: 0.06em;
   color: var(--red);
 }
@@ -1732,9 +1703,7 @@ button:focus-visible {
 }
 .copy-label {
   display: block;
-  font:
-    500 10px/1.6 "IBM Plex Mono",
-    monospace;
+  font: 500 10px/1.6 var(--font-meta);
   text-transform: uppercase;
   letter-spacing: 0.11em;
   color: #6a625b;
@@ -1980,9 +1949,7 @@ body {
   align-items: center;
   gap: 9px;
   min-height: 44px;
-  font:
-    500 11px "IBM Plex Mono",
-    monospace;
+  font: 500 11px var(--font-meta);
   letter-spacing: 0.04em;
   color: #625a54;
 }
@@ -2016,9 +1983,7 @@ body {
   margin-top: 23px;
 }
 .wild-business strong {
-  font:
-    600 48px/1 Oswald,
-    sans-serif;
+  font: 600 48px/1 var(--font-display);
   color: var(--red);
   white-space: nowrap;
 }
@@ -2029,9 +1994,7 @@ body {
 }
 .wild-business p span {
   display: block;
-  font:
-    400 10px/1.5 "IBM Plex Mono",
-    monospace;
+  font: 400 10px/1.5 var(--font-meta);
   letter-spacing: 0.03em;
   text-transform: uppercase;
   margin-top: 6px;
@@ -2107,9 +2070,7 @@ body {
   margin-bottom: 14px;
 }
 .image-dialog__bar p {
-  font:
-    500 12px "IBM Plex Mono",
-    monospace;
+  font: 500 12px var(--font-meta);
   margin: 0;
 }
 .image-dialog__bar button {
@@ -2121,14 +2082,10 @@ body {
   background: none;
   min-height: 44px;
   padding: 8px 2px;
-  font:
-    500 12px "IBM Plex Mono",
-    monospace;
+  font: 500 12px var(--font-meta);
 }
 .image-dialog__bar button span {
-  font:
-    300 26px Arial,
-    sans-serif;
+  font: 300 26px var(--font-meta);
 }
 .image-dialog > img {
   max-height: calc(100dvh - 145px);
@@ -2383,9 +2340,7 @@ html:has(.image-dialog[open]) {
   padding: 0;
   background: rgba(247, 245, 239, 0.94);
   color: var(--ink);
-  font:
-    22px/1 Arial,
-    sans-serif;
+  font: 22px/1 var(--font-meta);
   letter-spacing: 0;
   opacity: 1;
   transition:
@@ -2427,9 +2382,7 @@ html:has(.image-dialog[open]) {
   gap: 12px;
   margin-top: 8px;
   min-height: 44px;
-  font:
-    500 11px "IBM Plex Mono",
-    monospace;
+  font: 500 11px var(--font-meta);
   color: var(--red);
 }
 .image-dialog__original .arrow {
@@ -2503,10 +2456,7 @@ html:has(.image-dialog[open]) {
   padding: 10px 0 42px;
 }
 .strategy-proof__copy h3 {
-  font:
-    500 clamp(34px, 3.5vw, 52px)/1.04 "Cormorant Garamond",
-    Georgia,
-    serif;
+  font: 500 clamp(34px, 3.5vw, 52px)/1.04 var(--font-body);
   letter-spacing: -0.035em;
   margin: 14px 0;
 }
@@ -2554,16 +2504,11 @@ html:has(.image-dialog[open]) {
   grid-row: 1;
 }
 .metal-secondary dt {
-  font:
-    400 16px/1.15 "Cormorant Garamond",
-    Georgia,
-    serif;
+  font: 400 16px/1.15 var(--font-body);
   color: #625a54;
 }
 .metal-secondary dd {
-  font:
-    500 clamp(24px, 2.25vw, 30px)/1.1 Oswald,
-    sans-serif;
+  font: 500 clamp(24px, 2.25vw, 30px)/1.1 var(--font-display);
   letter-spacing: -0.025em;
   margin: 0;
   white-space: nowrap;
@@ -2634,9 +2579,7 @@ html:has(.image-dialog[open]) {
 }
 .image-fallback {
   display: block;
-  font:
-    500 11px/1.5 "IBM Plex Mono",
-    monospace;
+  font: 500 11px/1.5 var(--font-meta);
   color: var(--red);
   padding: 12px 0;
 }
@@ -2646,9 +2589,7 @@ html:has(.image-dialog[open]) {
 .timeline__extra summary {
   cursor: pointer;
   color: var(--red);
-  font:
-    500 11px/1.5 "IBM Plex Mono",
-    monospace;
+  font: 500 11px/1.5 var(--font-meta);
   padding: 8px 0;
 }
 .timeline__extra p {
@@ -2678,4 +2619,37 @@ html:has(.image-dialog[open]) {
   .no-js:not(.js-enabled) .header-name {
     margin-left: auto;
   }
+}
+
+.case-material {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.case-material summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  font: 500 20px/1.2 var(--font-body);
+  cursor: pointer;
+  list-style: none;
+}
+.case-material summary::-webkit-details-marker {
+  display: none;
+}
+.case-material summary .arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--red);
+}
+.case-material__image {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+.case-material__image > img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
