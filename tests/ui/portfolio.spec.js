@@ -132,7 +132,10 @@ test("dark shader runs only in view and recovers context loss", async ({
 test("all ten project viewers open, close and restore focus", async ({
   page,
 }) => {
-  await page.locator(".case-expand summary").click();
+  for (const summary of await page
+    .locator(".project-disclosure > summary")
+    .all())
+    await summary.click();
   await page.locator(".case-material summary").click();
   const triggers = page.locator(".image-open");
   await expect(triggers).toHaveCount(10);
@@ -196,6 +199,7 @@ test("viewer locks background, keeps inside padding open and restores scroll", a
 test("viewer close button works; dragging from inside onto backdrop does not close", async ({
   page,
 }) => {
+  await page.locator(".case-expand > summary").click();
   await page.locator(".image-open").first().click();
   const dialog = page.locator(".image-dialog[open]");
   const bounds = await dialog.boundingBox();
@@ -219,30 +223,26 @@ test("strategy disclosure works from the keyboard", async ({ page }) => {
   await expect(details).not.toHaveAttribute("open");
 });
 
-test("mobile menu closes on Escape, outside click and navigation", async ({
+test("framed navigation stays visible and links follow the reading order", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  const toggle = page.locator(".menu-toggle");
-  await toggle.click();
-  await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await page.keyboard.press("Escape");
-  await expect(toggle).toHaveAttribute("aria-expanded", "false");
-  await expect(toggle).toBeFocused();
-  await toggle.click();
-  await page.locator(".hero__portrait").click();
-  await expect(toggle).toHaveAttribute("aria-expanded", "false");
-  await toggle.click();
-  await page
-    .getByRole("navigation")
-    .getByRole("link", { name: "Опыт" })
-    .click();
-  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  const nav = page.getByRole("navigation");
+  await expect(nav).toBeVisible();
+  await expect(nav.getByRole("link")).toHaveCount(3);
+  await nav.getByRole("link", { name: "Опыт и экспертиза" }).click();
   await expect(page).toHaveURL(/#experience$/);
-  await page.goto("./");
-  await toggle.click();
-  await page.setViewportSize({ width: 1024, height: 768 });
-  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  expect(
+    await page
+      .locator("main > section")
+      .evaluateAll((elements) => elements.map((el) => el.id)),
+  ).toEqual(["", "experience", "projects", "contact"]);
+  await expect(page.locator(".project-disclosure")).toHaveCount(7);
+  await expect(page.locator(".project-disclosure[open]")).toHaveCount(0);
+  const first = page.locator(".project-disclosure > summary").first();
+  await first.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#wildberries")).toHaveAttribute("open", "");
 });
 
 for (const width of [320, 390, 768, 1024, 1440, 1920]) {
@@ -251,7 +251,10 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
   }, testInfo) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.locator(".case-expand summary").click();
+    for (const summary of await page
+      .locator(".project-disclosure > summary")
+      .all())
+      await summary.click();
     const selectors = [
       ".hero__role",
       ".hero__actions a",
@@ -420,18 +423,18 @@ test("slow JavaScript keeps initial mobile layout stable and content readable", 
     ]),
   );
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.getByRole("navigation")).not.toBeVisible();
+  await expect(page.getByRole("navigation")).toBeVisible();
   const before = await role.boundingBox();
   release();
   await expect(page.locator("html")).not.toHaveClass(/no-js/);
   await expect
     .poll(async () => (await role.boundingBox()).y)
     .toBeCloseTo(before.y, 0);
-  await page.locator(".menu-toggle").click();
-  await expect(page.locator(".menu-toggle")).toHaveAttribute(
-    "aria-expanded",
-    "true",
-  );
+  await page
+    .getByRole("navigation")
+    .getByRole("link", { name: "Опыт и экспертиза" })
+    .click();
+  await expect(page).toHaveURL(/#experience$/);
   expect(errors).toEqual([]);
   await context.close();
 });

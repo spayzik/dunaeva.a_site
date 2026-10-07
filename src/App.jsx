@@ -285,33 +285,6 @@ function ProjectImage({ item, className = "mini-case__image", caption }) {
 }
 
 export function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const header = useRef(null);
-  const menuToggle = useRef(null);
-  useEffect(() => {
-    if (!menuOpen) return;
-    const escape = (event) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-        menuToggle.current.focus();
-      }
-    };
-    const outside = (event) => {
-      if (!header.current.contains(event.target)) setMenuOpen(false);
-    };
-    const desktop = matchMedia("(min-width: 761px)");
-    const resize = () => {
-      if (desktop.matches) setMenuOpen(false);
-    };
-    document.addEventListener("keydown", escape);
-    document.addEventListener("pointerdown", outside);
-    desktop.addEventListener("change", resize);
-    return () => {
-      document.removeEventListener("keydown", escape);
-      document.removeEventListener("pointerdown", outside);
-      desktop.removeEventListener("change", resize);
-    };
-  }, [menuOpen]);
   useEffect(() => {
     const elements = document.querySelectorAll(".reveal");
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
@@ -342,39 +315,9 @@ export function App() {
   return (
     <>
       <CursorTrail />
-      <header className="site-header wrap" ref={header}>
-        <button
-          ref={menuToggle}
-          className="menu-toggle"
-          aria-expanded={menuOpen}
-          aria-controls="primary-nav"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? "Закрыть" : "Меню"}{" "}
-          <span aria-hidden="true">{menuOpen ? "×" : "+"}</span>
-        </button>
-        <nav
-          id="primary-nav"
-          className={menuOpen ? "nav nav--open" : "nav"}
-          aria-label="Основная навигация"
-        >
-          <a href="#projects" onClick={() => setMenuOpen(false)}>
-            Проекты
-          </a>
-          <span>/</span>
-          <a href="#experience" onClick={() => setMenuOpen(false)}>
-            Опыт
-          </a>
-          <span>/</span>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>
-            Контакт
-          </a>
-        </nav>
-        <a
-          className="header-name"
-          href="#top"
-          onClick={() => setMenuOpen(false)}
-        >
+      <header className="site-header wrap">
+        <span className="eyebrow">Портфолио / 2026</span>
+        <a className="header-name" href="#top">
           <span />
           Александра Дунаева
         </a>
@@ -419,6 +362,21 @@ export function App() {
               <br />
               От стратегии до измеримого результата.
             </p>
+            <nav
+              id="primary-nav"
+              className="hero-nav"
+              aria-label="Основная навигация"
+            >
+              <a href="#experience">
+                Опыт и экспертиза <Arrow diagonal />
+              </a>
+              <a href="#projects">
+                Проекты <Arrow diagonal />
+              </a>
+              <a href="#contact">
+                Подход и контакт <Arrow diagonal />
+              </a>
+            </nav>
             <div className="hero__actions">
               <a className="text-link hero__link" href="#projects">
                 Смотреть проекты <Arrow />
@@ -439,298 +397,6 @@ export function App() {
               >
                 Резюме PDF <Arrow diagonal />
               </a>
-            </div>
-          </div>
-        </section>
-        <section className="projects wrap" id="projects" aria-label="Проекты">
-          <Label index="01 / 07">Избранные проекты</Label>
-          <article className="case case--wildberries reveal" id="wildberries">
-            <div className="case__top">
-              <div>
-                <div className="case__identity">
-                  <span className="case__no">01 / Стратегия и рост</span>
-                </div>
-                <h2 className="company-title">
-                  <BrandLogo name="Wildberries" heading />
-                </h2>
-                <p className="case__subtitle">
-                  Разработка и реализация SMM-стратегии
-                </p>
-              </div>
-              <p className="case__aside">
-                Лидирую команду из 8 человек: выстраиваю SMM-стратегию, запускаю
-                коллаборации и связываю контент с бизнес-метриками.
-              </p>
-            </div>
-            <div className="wild-layout">
-              <ProjectImage
-                className="wild-media"
-                item={{
-                  name: "Wildberries — SMM-стратегия",
-                  image: "wildberries-instagram.jpg",
-                  alt: "Профиль Wildberries Official из портфолио",
-                }}
-                caption="Материалы из портфолио / Wildberries"
-              />
-              <div className="wild-stat">
-                <span className="eyebrow">Telegram / подписчики</span>
-                <div className="wild-stat__old">150 000</div>
-                <div className="wild-stat__arrow" aria-hidden="true">
-                  <Arrow />
-                </div>
-                <div className="wild-stat__new">550 000</div>
-                <span className="eyebrow wild-stat__period">
-                  I полугодие 2026
-                </span>
-                <div className="wild-business">
-                  <strong>×3</strong>
-                  <p>
-                    GMV из соцсетей<span>I полугодие 2026</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <details className="case-expand">
-              <summary>
-                <span className="case-expand__intro">
-                  <span className="case-expand__title">
-                    Подробнее о <em>стратегии</em>
-                  </span>
-                  <span className="case-expand__caption">
-                    Позиционирование, продвижение, бренд-интеграции
-                  </span>
-                </span>
-                <span className="case-expand__toggle" aria-hidden="true">
-                  +
-                </span>
-              </summary>
-              <div className="case__details">
-                <p>
-                  <span className="copy-label">Решение</span>Обновила
-                  позиционирование и визуальную систему, выстроила продвижение
-                  через контент, таргетинг, посевы, бренд-интеграции и
-                  инструменты экосистемы.
-                </p>
-                <div className="micro-stats">
-                  <div>
-                    <strong>500 000</strong>
-                    <span>
-                      подписчиков в MAX
-                      <br />с нуля
-                    </span>
-                  </div>
-                  <div>
-                    <strong>15 млн</strong>
-                    <span>
-                      охват ВК
-                      <br />
-                      было 1,6 млн
-                    </span>
-                  </div>
-                  <div>
-                    <strong>4,6 млн</strong>
-                    <span>
-                      охват ОК
-                      <br />
-                      было 900 тыс.
-                    </span>
-                  </div>
-                  <div>
-                    <strong>2,6 млн</strong>
-                    <span>
-                      дополнительный охват
-                      <br />в месяц от новых каналов
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="strategy-proof">
-                <div className="strategy-proof__copy">
-                  <span className="eyebrow">Instagram / материалы проекта</span>
-                  <h3>
-                    Новая площадка.
-                    <br />
-                    <em>Знакомый бренд.</em>
-                  </h3>
-                  <p>
-                    Профиль Wildberries из портфолио — 1,2 млн подписчиков на
-                    момент скриншота.
-                  </p>
-                </div>
-                <ProjectImage
-                  className="strategy-proof__image"
-                  item={{
-                    name: "Wildberries — профиль Instagram",
-                    image: "wildberries-instagram.jpg",
-                    alt: "Скрин профиля Wildberries Official из портфолио: 1,2 млн подписчиков",
-                  }}
-                />
-              </div>
-              <div className="case__substory">
-                <ProjectImage
-                  className="substory-media"
-                  item={{
-                    name: "Wildberries — бренд-интеграции",
-                    image: "wildberries-post.jpg",
-                    alt: "Креатив Wildberries для партнерской публикации",
-                  }}
-                />
-                <div>
-                  <span className="eyebrow">Креатив в экосистеме</span>
-                  <h3>
-                    Бренд-интеграции,
-                    <br />
-                    которые работают
-                  </h3>
-                  <p>
-                    Партнерские подарки для розыгрышей, коллаборация с
-                    «Пятницей» и поддержка фильма «Яга на нашу голову».
-                    Интеграция с «Пятницей» привела более 50 тысяч новых
-                    подписчиков в Telegram, а кампания фильма повысила
-                    вовлеченность в 1,5 раза. Совместный контентный проект с
-                    Банком России добавил еще 15 тысяч подписчиков и повысил
-                    вовлечённость на 35%.
-                  </p>
-                </div>
-              </div>
-            </details>
-          </article>
-          <article className="case case--metal reveal" id="metalloinvest">
-            <div className="metal-intro">
-              <div>
-                <div className="case__identity case__identity--stacked">
-                  <span className="case__no">02 / HR-кампания</span>
-                </div>
-                <h2 className="company-title">
-                  <BrandLogo name="Металлоинвест" heading />
-                </h2>
-                <p className="case__subtitle">
-                  Найти людей для трех комбинатов
-                </p>
-                <p>
-                  <span className="copy-label">Мой вклад</span>Распределяла
-                  бюджет, выбирала площадки, согласовывала и оптимизировала
-                  медиаплан и креативы для МГОК, ЛГОК и ОЭМК. Вела коммуникацию
-                  с клиентом.
-                </p>
-              </div>
-              <ProjectImage
-                className="metal-media"
-                item={{
-                  name: "Металлоинвест — HR-кампания",
-                  image: "metalloinvest-hr.jpg",
-                  alt: "Креатив HR-кампании Металлоинвест с сотрудником производства",
-                }}
-              />
-              <div className="metal-results">
-                <span className="eyebrow">Результат за 2 месяца</span>
-                <strong>1 015</strong>
-                <span className="eyebrow">заявок</span>
-                <span className="red-stroke red-stroke--small" />
-                <dl className="metal-secondary">
-                  <div>
-                    <dt>Показы</dt>
-                    <dd>7 348 491</dd>
-                  </div>
-                  <div>
-                    <dt>Переходы</dt>
-                    <dd>36 910</dd>
-                  </div>
-                  <div>
-                    <dt>Звонки</dt>
-                    <dd>2 156</dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-          </article>
-          <div className="more-heading reveal">
-            <Label index="03 — 07">Другие истории</Label>
-            <h2>
-              Идеи, которые
-              <br />
-              <em>вышли в мир.</em>
-            </h2>
-            <p>
-              Инфлюенс-кампании, спецпроекты и контент с площадки фестиваля.
-            </p>
-          </div>
-          <div className="case-grid">
-            {cases.map((item, i) => (
-              <article
-                className={
-                  "mini-case mini-case--" +
-                  (i + 1) +
-                  (item.no === "07" ? " mini-case--wide" : "") +
-                  " reveal"
-                }
-                key={item.no}
-              >
-                <ProjectImage item={item} />
-                <div className="mini-case__body">
-                  <div className="mini-case__heading">
-                    <div className="mini-case__identity">
-                      <span className="eyebrow">{item.kind}</span>
-                    </div>
-                    <h3 className="company-title">
-                      <BrandLogo name={item.name} heading />
-                    </h3>
-                  </div>
-                  <div className="mini-case__copy">
-                    <p>
-                      <span className="copy-label">Задача</span>
-                      {item.task}
-                    </p>
-                    <p>
-                      <span className="copy-label">Мой вклад</span>
-                      {item.role}
-                    </p>
-                  </div>
-                  <div className="mini-case__results">
-                    {item.stats.map(([value, label]) => (
-                      <div key={value}>
-                        <strong>{value}</strong>
-                        <span>{label}</span>
-                      </div>
-                    ))}
-                  </div>
-                  {item.note && <p className="mini-case__note">{item.note}</p>}
-                  {item.extraImage && (
-                    <details className="case-material">
-                      <summary>
-                        Ещё материал: контентная съёмка <Arrow diagonal />
-                      </summary>
-                      <ProjectImage
-                        item={item.extraImage}
-                        className="case-material__image"
-                      />
-                    </details>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-        <section className="approach" aria-labelledby="approach-title">
-          <ApproachGlow />
-          <div className="wrap approach__inner reveal">
-            <Label>Подход</Label>
-            <div>
-              <p className="approach__kicker">
-                Не просто присутствовать в ленте.
-              </p>
-              <h2 id="approach-title">
-                Находить точку, где <em>креатив</em> становится{" "}
-                <em>результатом.</em>
-              </h2>
-            </div>
-            <div className="approach__bottom">
-              <span>Стратегия / команда / контент / партнерства</span>
-              <p>
-                Выстраиваю стратегию под задачу бренда, собираю команду и
-                организую работу над контентом и партнерствами. Оцениваю
-                результат по охватам, росту аудитории и бизнес-метрикам.
-              </p>
             </div>
           </div>
         </section>
@@ -802,25 +468,319 @@ export function App() {
             </p>
           </div>
         </section>
-        <section
-          className="contact"
-          id="contact"
-          aria-labelledby="contact-title"
-        >
-          <div className="wrap contact__inner reveal">
-            <div className="contact__top">
-              <Label>Контакт</Label>
-              <span>Москва / открыта к новым проектам</span>
+        <section className="projects wrap" id="projects" aria-label="Проекты">
+          <Label index="7 кейсов">Проекты</Label>
+          <p className="projects-intro">
+            Выберите историю — внутри задача, мой вклад и результаты.
+          </p>
+          <details className="project-disclosure case-expand" id="wildberries">
+            <summary>
+              <span className="project-number">01</span>
+              <BrandLogo name="Wildberries" />
+              <span className="project-title">Полный цикл SMM</span>
+              <span className="project-toggle" aria-hidden="true">
+                +
+              </span>
+            </summary>
+            <div className="project-content">
+              {" "}
+              <article className="case case--wildberries">
+                <div className="case__top">
+                  <div>
+                    <div className="case__identity">
+                      <span className="case__no">01 / Стратегия и рост</span>
+                    </div>
+                    <h2 className="company-title">
+                      <BrandLogo name="Wildberries" heading />
+                    </h2>
+                    <p className="case__subtitle">
+                      Разработка и реализация SMM-стратегии
+                    </p>
+                  </div>
+                  <p className="case__aside">
+                    Лидирую команду из 8 человек: выстраиваю SMM-стратегию,
+                    запускаю коллаборации и связываю контент с бизнес-метриками.
+                  </p>
+                </div>
+                <div className="wild-layout">
+                  <ProjectImage
+                    className="wild-media"
+                    item={{
+                      name: "Wildberries — SMM-стратегия",
+                      image: "wildberries-instagram.jpg",
+                      alt: "Профиль Wildberries Official из портфолио",
+                    }}
+                    caption="Материалы из портфолио / Wildberries"
+                  />
+                  <div className="wild-stat">
+                    <span className="eyebrow">Telegram / подписчики</span>
+                    <div className="wild-stat__old">150 000</div>
+                    <div className="wild-stat__arrow" aria-hidden="true">
+                      <Arrow />
+                    </div>
+                    <div className="wild-stat__new">550 000</div>
+                    <span className="eyebrow wild-stat__period">
+                      I полугодие 2026
+                    </span>
+                    <div className="wild-business">
+                      <strong>×3</strong>
+                      <p>
+                        GMV из соцсетей<span>I полугодие 2026</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="case__details">
+                  <p>
+                    <span className="copy-label">Решение</span>Обновила
+                    позиционирование и визуальную систему, выстроила продвижение
+                    через контент, таргетинг, посевы, бренд-интеграции и
+                    инструменты экосистемы.
+                  </p>
+                  <div className="micro-stats">
+                    <div>
+                      <strong>500 000</strong>
+                      <span>
+                        подписчиков в MAX
+                        <br />с нуля
+                      </span>
+                    </div>
+                    <div>
+                      <strong>15 млн</strong>
+                      <span>
+                        охват ВК
+                        <br />
+                        было 1,6 млн
+                      </span>
+                    </div>
+                    <div>
+                      <strong>4,6 млн</strong>
+                      <span>
+                        охват ОК
+                        <br />
+                        было 900 тыс.
+                      </span>
+                    </div>
+                    <div>
+                      <strong>2,6 млн</strong>
+                      <span>
+                        дополнительный охват
+                        <br />в месяц от новых каналов
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="strategy-proof">
+                  <div className="strategy-proof__copy">
+                    <span className="eyebrow">
+                      Instagram / материалы проекта
+                    </span>
+                    <h3>
+                      Новая площадка.
+                      <br />
+                      <em>Знакомый бренд.</em>
+                    </h3>
+                    <p>
+                      Профиль Wildberries из портфолио — 1,2 млн подписчиков на
+                      момент скриншота.
+                    </p>
+                  </div>
+                  <ProjectImage
+                    className="strategy-proof__image"
+                    item={{
+                      name: "Wildberries — профиль Instagram",
+                      image: "wildberries-instagram.jpg",
+                      alt: "Скрин профиля Wildberries Official из портфолио: 1,2 млн подписчиков",
+                    }}
+                  />
+                </div>
+                <div className="case__substory">
+                  <ProjectImage
+                    className="substory-media"
+                    item={{
+                      name: "Wildberries — бренд-интеграции",
+                      image: "wildberries-post.jpg",
+                      alt: "Креатив Wildberries для партнерской публикации",
+                    }}
+                  />
+                  <div>
+                    <span className="eyebrow">Креатив в экосистеме</span>
+                    <h3>
+                      Бренд-интеграции,
+                      <br />
+                      которые работают
+                    </h3>
+                    <p>
+                      Партнерские подарки для розыгрышей, коллаборация с
+                      «Пятницей» и поддержка фильма «Яга на нашу голову».
+                      Интеграция с «Пятницей» привела более 50 тысяч новых
+                      подписчиков в Telegram, а кампания фильма повысила
+                      вовлеченность в 1,5 раза. Совместный контентный проект с
+                      Банком России добавил еще 15 тысяч подписчиков и повысил
+                      вовлечённость на 35%.
+                    </p>
+                  </div>
+                </div>
+              </article>
             </div>
-            <h2 id="contact-title">
-              Есть идея?
-              <br />
-              <em>Давайте обсудим.</em>
-            </h2>
-            <div className="contact__bottom">
+          </details>
+          <details className="project-disclosure" id="metalloinvest">
+            <summary>
+              <span className="project-number">02</span>
+              <BrandLogo name="Металлоинвест" />
+              <span className="project-title">HR-кампания</span>
+              <span className="project-toggle" aria-hidden="true">
+                +
+              </span>
+            </summary>
+            <div className="project-content">
+              {" "}
+              <article className="case case--metal">
+                <div className="metal-intro">
+                  <div>
+                    <div className="case__identity case__identity--stacked">
+                      <span className="case__no">02 / HR-кампания</span>
+                    </div>
+                    <h2 className="company-title">
+                      <BrandLogo name="Металлоинвест" heading />
+                    </h2>
+                    <p className="case__subtitle">
+                      Найти людей для трех комбинатов
+                    </p>
+                    <p>
+                      <span className="copy-label">Мой вклад</span>Распределяла
+                      бюджет, выбирала площадки, согласовывала и оптимизировала
+                      медиаплан и креативы для МГОК, ЛГОК и ОЭМК. Вела
+                      коммуникацию с клиентом.
+                    </p>
+                  </div>
+                  <ProjectImage
+                    className="metal-media"
+                    item={{
+                      name: "Металлоинвест — HR-кампания",
+                      image: "metalloinvest-hr.jpg",
+                      alt: "Креатив HR-кампании Металлоинвест с сотрудником производства",
+                    }}
+                  />
+                  <div className="metal-results">
+                    <span className="eyebrow">Результат за 2 месяца</span>
+                    <strong>1 015</strong>
+                    <span className="eyebrow">заявок</span>
+                    <span className="red-stroke red-stroke--small" />
+                    <dl className="metal-secondary">
+                      <div>
+                        <dt>Показы</dt>
+                        <dd>7 348 491</dd>
+                      </div>
+                      <div>
+                        <dt>Переходы</dt>
+                        <dd>36 910</dd>
+                      </div>
+                      <div>
+                        <dt>Звонки</dt>
+                        <dd>2 156</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </details>
+          <div className="project-list">
+            {cases.map((item, i) => (
+              <details className="project-disclosure" key={item.no}>
+                <summary>
+                  <span className="project-number">{item.no}</span>
+                  <BrandLogo name={item.name} />
+                  <span className="project-title">
+                    {item.name === "Слобода"
+                      ? "SMM-стратегия и ведение соцсетей"
+                      : item.name === "ВкусВилл"
+                        ? "Инфлюенс-кампания"
+                        : item.kind}
+                  </span>
+                  <span className="project-toggle" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <div className="project-content mini-case">
+                  <ProjectImage item={item} />
+                  <div className="mini-case__body">
+                    <div className="mini-case__heading">
+                      <div className="mini-case__identity">
+                        <span className="eyebrow">{item.kind}</span>
+                      </div>
+                      <h3 className="company-title">
+                        <BrandLogo name={item.name} heading />
+                      </h3>
+                    </div>
+                    <div className="mini-case__copy">
+                      <p>
+                        <span className="copy-label">Задача</span>
+                        {item.task}
+                      </p>
+                      <p>
+                        <span className="copy-label">Мой вклад</span>
+                        {item.role}
+                      </p>
+                    </div>
+                    <div className="mini-case__results">
+                      {item.stats.map(([value, label]) => (
+                        <div key={value}>
+                          <strong>{value}</strong>
+                          <span>{label}</span>
+                        </div>
+                      ))}
+                    </div>
+                    {item.note && (
+                      <p className="mini-case__note">{item.note}</p>
+                    )}
+                    {item.extraImage && (
+                      <details className="case-material">
+                        <summary>
+                          Ещё материал: контентная съёмка <Arrow diagonal />
+                        </summary>
+                        <ProjectImage
+                          item={item.extraImage}
+                          className="case-material__image"
+                        />
+                      </details>
+                    )}
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+        <section
+          className="approach contact"
+          id="contact"
+          aria-labelledby="approach-title"
+        >
+          <ApproachGlow />
+          <div className="wrap approach__inner reveal">
+            <Label>Подход и контакт</Label>
+            <div>
+              <p className="approach__kicker">
+                Не просто присутствовать в ленте.
+              </p>
+              <h2 id="approach-title">
+                Находить точку, где <em>креатив</em> становится{" "}
+                <em>результатом.</em>
+              </h2>
+            </div>
+            <div className="approach__bottom">
+              <span>Стратегия / команда / контент / партнерства</span>
               <p>
-                Расскажите о задаче — вместе найдем для нее сильную форму и
-                понятный результат.
+                Выстраиваю стратегию под задачу бренда, собираю команду и
+                организую работу над контентом и партнерствами. Оцениваю
+                результат по охватам, росту аудитории и бизнес-метрикам.
+              </p>
+            </div>
+            <div className="approach-contact">
+              <p>
+                Есть задача? Давайте обсудим.
+                <span>Москва / открыта к новым проектам</span>
               </p>
               <div className="contact__links">
                 <a
