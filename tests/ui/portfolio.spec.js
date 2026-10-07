@@ -504,6 +504,15 @@ test("campaign previews are desktop-only and disclosures retain keyboard access"
     "src",
     /wildberries-post.jpg$/,
   );
+  const hrSummary = page.locator("#metalloinvest > summary");
+  await hrSummary.hover();
+  await expect(page.locator(".project-preview")).toHaveCount(1);
+  await expect(hrSummary.locator(".project-preview img")).toHaveAttribute(
+    "src",
+    /metalloinvest-hr.jpg$/,
+  );
+  await page.mouse.move(0, 0);
+  await expect(page.locator(".project-preview")).toHaveCount(0);
   await summary.press("Enter");
   await expect(page.locator("#wildberries")).toHaveAttribute("open", "");
   await expect(page.locator(".project-preview")).toHaveCount(0);

@@ -289,25 +289,35 @@ function ProjectImage({ item, className = "mini-case__image", caption }) {
   );
 }
 
-function ProjectSummary({ no, name, title, image, highlight }) {
-  const [preview, setPreview] = useState(false);
-  const showPreview = () => {
+function ProjectSummary({
+  no,
+  name,
+  title,
+  image,
+  highlight,
+  activePreview,
+  setActivePreview,
+}) {
+  const showPreview = (event) => {
     if (
+      !event.currentTarget.parentElement.open &&
       matchMedia(
         "(min-width: 1100px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
       ).matches
     )
-      setPreview(true);
+      setActivePreview(no);
   };
+  const hidePreview = () =>
+    setActivePreview((current) => (current === no ? null : current));
   return (
     <summary
       onPointerEnter={(event) => {
-        if (event.pointerType === "mouse") showPreview();
+        if (event.pointerType === "mouse") showPreview(event);
       }}
-      onPointerLeave={() => setPreview(false)}
+      onPointerLeave={hidePreview}
       onFocus={showPreview}
-      onBlur={() => setPreview(false)}
-      onClick={() => setPreview(false)}
+      onBlur={hidePreview}
+      onClick={hidePreview}
     >
       <span className="project-number">{no}</span>
       <BrandLogo name={name} />
@@ -316,7 +326,7 @@ function ProjectSummary({ no, name, title, image, highlight }) {
       <span className="project-toggle" aria-hidden="true">
         +
       </span>
-      {preview && (
+      {activePreview === no && (
         <span className="project-preview" aria-hidden="true">
           <img src={asset(image)} alt="" decoding="async" />
           <span>{name} / материалы проекта</span>
@@ -328,6 +338,7 @@ function ProjectSummary({ no, name, title, image, highlight }) {
 
 export function App() {
   const [activeSection, setActiveSection] = useState("");
+  const [activePreview, setActivePreview] = useState(null);
   useEffect(() => {
     const update = () => setActiveSection(location.hash.slice(1));
     update();
@@ -545,6 +556,8 @@ export function App() {
               title="Полный цикл SMM"
               image="wildberries-post.jpg"
               highlight="×3 GMV из соцсетей"
+              activePreview={activePreview}
+              setActivePreview={setActivePreview}
             />
             <div className="project-content">
               <article className="case case--wildberries">
@@ -700,6 +713,8 @@ export function App() {
               title="HR-кампания"
               image="metalloinvest-hr.jpg"
               highlight="1 015 заявок"
+              activePreview={activePreview}
+              setActivePreview={setActivePreview}
             />
             <div className="project-content">
               <article className="case case--metal">
@@ -772,6 +787,8 @@ export function App() {
                   }
                   image={item.image}
                   highlight={item.highlight}
+                  activePreview={activePreview}
+                  setActivePreview={setActivePreview}
                 />
                 <div className="project-content mini-case">
                   <ProjectImage item={item} caption={item.kind} />
