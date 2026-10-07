@@ -3317,3 +3317,12 @@ html:has(.image-dialog[open]) {
   font-size: 22px;
   line-height: 18px;
 }
+
+.project-disclosure > summary,
+.project-disclosure.case-expand > summary {
+  padding-inline: 16px;
+  min-width: 0;
+}
+.project-disclosure > summary > * {
+  min-width: 0;
+}

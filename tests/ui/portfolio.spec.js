@@ -277,7 +277,7 @@ for (const width of [320, 390, 768, 1024, 1440, 1920]) {
         );
         expect(
           await element.evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
-          selector,
+          `${selector}: ${JSON.stringify(await element.evaluate((el) => ({ client: el.clientWidth, scroll: el.scrollWidth, children: [...el.children].map((c) => ({ class: c.className, width: c.getBoundingClientRect().width, x: c.getBoundingClientRect().x })) })))}`,
         ).toBe(true);
       }
     }
@@ -467,14 +467,13 @@ test("studio light initializes after widening and recovers a lost context", asyn
         .getContext("webgl")
         .getExtension("WEBGL_lose_context");
       if (!extension) return false;
+      el.restoreTestContext = () => extension.restoreContext();
       extension.loseContext();
       return true;
     }),
   ).toBe(true);
   await expect(canvas).toHaveAttribute("data-state", "lost");
-  await canvas.evaluate((el) =>
-    el.getContext("webgl").getExtension("WEBGL_lose_context").restoreContext(),
-  );
+  await canvas.evaluate((el) => el.restoreTestContext());
   await expect(canvas).toHaveAttribute("data-state", "ready");
   await context.close();
 });
