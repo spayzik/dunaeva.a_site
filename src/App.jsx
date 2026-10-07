@@ -534,7 +534,11 @@ export function App() {
           <p className="projects-intro">
             Выберите историю — внутри задача, мой вклад и результаты.
           </p>
-          <details className="project-disclosure case-expand" id="wildberries">
+          <details
+            className="project-disclosure case-expand"
+            data-brand="wildberries"
+            id="wildberries"
+          >
             <ProjectSummary
               no="01"
               name="Wildberries"
@@ -685,7 +689,11 @@ export function App() {
               </article>
             </div>
           </details>
-          <details className="project-disclosure" id="metalloinvest">
+          <details
+            className="project-disclosure"
+            data-brand="metalloinvest"
+            id="metalloinvest"
+          >
             <ProjectSummary
               no="02"
               name="Металлоинвест"
@@ -747,7 +755,11 @@ export function App() {
           </details>
           <div className="project-list">
             {cases.map((item) => (
-              <details className="project-disclosure" key={item.no}>
+              <details
+                className="project-disclosure"
+                data-brand={brands[item.name][1]}
+                key={item.no}
+              >
                 <ProjectSummary
                   no={item.no}
                   name={item.name}

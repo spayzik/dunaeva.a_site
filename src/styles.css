@@ -3609,3 +3609,30 @@ html:has(.image-dialog[open]) {
     transition: none;
   }
 }
+
+/* Source-logo colors are confined to fine rules around campaign material. */
+.project-disclosure {
+  --campaign-color: var(--red);
+}
+.project-disclosure[data-brand="wildberries"] {
+  --campaign-color: #e313bf;
+}
+.project-disclosure[data-brand="vkusvill"] {
+  --campaign-color: #2dbe64;
+}
+.project-disclosure[data-brand="sloboda"] {
+  --campaign-color: #444344;
+}
+.project-content .mini-case__image,
+.project-content .case__substory {
+  border-top: 2px solid var(--campaign-color);
+}
+.project-preview {
+  border-top: 2px solid var(--campaign-color);
+}
+@media (max-width: 360px) {
+  .project-content .wild-stat__old,
+  .project-content .wild-stat__new {
+    font-size: 32px;
+  }
+}
