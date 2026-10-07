@@ -477,3 +477,39 @@ test("studio light initializes after widening and recovers a lost context", asyn
   await expect(canvas).toHaveAttribute("data-state", "ready");
   await context.close();
 });
+
+test("campaign previews are desktop-only and disclosures retain keyboard access", async ({
+  page,
+  isMobile,
+}) => {
+  await expect(
+    page.getByRole("link", { name: "Смотреть проекты", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("link", { name: "Обсудить проект", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".project-highlight")).toHaveCount(7);
+  const summary = page.locator("#wildberries > summary");
+  if (isMobile) {
+    await summary.tap();
+    await expect(page.locator("#wildberries")).toHaveAttribute("open", "");
+    await expect(page.locator(".project-preview")).toHaveCount(0);
+    return;
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await summary.focus();
+  await expect(summary.locator(".project-preview")).toBeVisible();
+  await expect(summary.locator(".project-preview img")).toHaveAttribute(
+    "src",
+    /wildberries-post.jpg$/,
+  );
+  await summary.press("Enter");
+  await expect(page.locator("#wildberries")).toHaveAttribute("open", "");
+  await expect(page.locator(".project-preview")).toHaveCount(0);
+  await summary.press("Enter");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.locator(".hero__resume").focus();
+  await summary.focus();
+  await expect(page.locator(".project-preview")).toHaveCount(0);
+});

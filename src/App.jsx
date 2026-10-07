@@ -39,6 +39,7 @@ const cases = [
     no: "03",
     name: "ВкусВилл",
     kind: "Инфлюенс-маркетинг",
+    highlight: "400 000+ охват",
     image: "vkusvill-influencers.jpg",
     alt: "Визуал кампании ВкусВилл",
     task: "Привлечь покупателей в магазины Челябинска и к продуктам СТМ.",
@@ -53,6 +54,7 @@ const cases = [
     no: "04",
     name: "Металлоинвест",
     kind: "Спецпроект «Сказки на ночь»",
+    highlight: "1 400+ отправок",
     image: "metalloinvest-stories.jpg",
     alt: "Материалы спецпроекта Сказки на ночь",
     task: "Помочь родителям на ночной смене стать ближе к детям.",
@@ -66,6 +68,7 @@ const cases = [
     no: "05",
     name: "SYBOX",
     kind: "HR-спецпроект",
+    highlight: "70+ заявок",
     image: "sybox-cat.jpg",
     alt: "Публикация с котовакансиями SYBOX",
     task: "Привлечь внимание к HR-бренду через «вакансии для котиков».",
@@ -81,6 +84,7 @@ const cases = [
     no: "06",
     name: "Слобода",
     kind: "Ребрендинг соцсетей",
+    highlight: "+64 000 подписчиков",
     image: "sloboda.jpg",
     alt: "Контент и упаковка соцсетей бренда Слобода",
     extraImage: {
@@ -96,6 +100,7 @@ const cases = [
     no: "07",
     name: "НРФ / НРФ Регионы",
     kind: "Фестиваль в реальном времени",
+    highlight: "190+ единиц контента",
     image: "nrf.jpg",
     alt: "Визуал Национального рекламного форума",
     task: "Повышать узнаваемость фестивалей и публиковать контент с площадки.",
@@ -284,7 +289,51 @@ function ProjectImage({ item, className = "mini-case__image", caption }) {
   );
 }
 
+function ProjectSummary({ no, name, title, image, highlight }) {
+  const [preview, setPreview] = useState(false);
+  const showPreview = () => {
+    if (
+      matchMedia(
+        "(min-width: 1100px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+      ).matches
+    )
+      setPreview(true);
+  };
+  return (
+    <summary
+      onPointerEnter={(event) => {
+        if (event.pointerType === "mouse") showPreview();
+      }}
+      onPointerLeave={() => setPreview(false)}
+      onFocus={showPreview}
+      onBlur={() => setPreview(false)}
+      onClick={() => setPreview(false)}
+    >
+      <span className="project-number">{no}</span>
+      <BrandLogo name={name} />
+      <span className="project-title">{title}</span>
+      <span className="project-highlight">{highlight}</span>
+      <span className="project-toggle" aria-hidden="true">
+        +
+      </span>
+      {preview && (
+        <span className="project-preview" aria-hidden="true">
+          <img src={asset(image)} alt="" decoding="async" />
+          <span>{name} / материалы проекта</span>
+        </span>
+      )}
+    </summary>
+  );
+}
+
 export function App() {
+  const [activeSection, setActiveSection] = useState("");
+  useEffect(() => {
+    const update = () => setActiveSection(location.hash.slice(1));
+    update();
+    window.addEventListener("hashchange", update);
+    return () => window.removeEventListener("hashchange", update);
+  }, []);
   useEffect(() => {
     const elements = document.querySelectorAll(".reveal");
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
@@ -367,27 +416,39 @@ export function App() {
               className="hero-nav"
               aria-label="Основная навигация"
             >
-              <a href="#experience">
+              <a
+                href="#experience"
+                aria-current={
+                  activeSection === "experience" ? "location" : undefined
+                }
+              >
                 Опыт и экспертиза <Arrow diagonal />
               </a>
-              <a href="#projects">
+              <a
+                href="#projects"
+                aria-current={
+                  activeSection === "projects" ? "location" : undefined
+                }
+              >
                 Проекты <Arrow diagonal />
               </a>
-              <a href="#contact">
+              <a
+                href="#contact"
+                aria-current={
+                  activeSection === "contact" ? "location" : undefined
+                }
+              >
                 Подход и контакт <Arrow diagonal />
               </a>
             </nav>
             <div className="hero__actions">
-              <a className="text-link hero__link" href="#projects">
-                Смотреть проекты <Arrow />
-              </a>
               <a
                 className="hero__contact"
                 href="https://t.me/aleksaa_aleksa"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Написать <Arrow diagonal />
+                Обсудить проект <Arrow diagonal />
               </a>
               <a
                 className="hero__resume"
@@ -474,16 +535,14 @@ export function App() {
             Выберите историю — внутри задача, мой вклад и результаты.
           </p>
           <details className="project-disclosure case-expand" id="wildberries">
-            <summary>
-              <span className="project-number">01</span>
-              <BrandLogo name="Wildberries" />
-              <span className="project-title">Полный цикл SMM</span>
-              <span className="project-toggle" aria-hidden="true">
-                +
-              </span>
-            </summary>
+            <ProjectSummary
+              no="01"
+              name="Wildberries"
+              title="Полный цикл SMM"
+              image="wildberries-post.jpg"
+              highlight="×3 GMV из соцсетей"
+            />
             <div className="project-content">
-              {" "}
               <article className="case case--wildberries">
                 <div className="case__top">
                   <div>
@@ -494,13 +553,42 @@ export function App() {
                       <BrandLogo name="Wildberries" heading />
                     </h2>
                     <p className="case__subtitle">
-                      Разработка и реализация SMM-стратегии
+                      <span className="copy-label">Задача</span>Разработка и
+                      реализация SMM-стратегии
                     </p>
                   </div>
                   <p className="case__aside">
+                    <span className="copy-label">Мой вклад</span>
                     Лидирую команду из 8 человек: выстраиваю SMM-стратегию,
                     запускаю коллаборации и связываю контент с бизнес-метриками.
                   </p>
+                </div>
+                <div className="case__substory">
+                  <ProjectImage
+                    className="substory-media"
+                    item={{
+                      name: "Wildberries — бренд-интеграции",
+                      image: "wildberries-post.jpg",
+                      alt: "Креатив Wildberries для партнерской публикации",
+                    }}
+                  />
+                  <div>
+                    <span className="eyebrow">Креатив в экосистеме</span>
+                    <h3>
+                      Бренд-интеграции,
+                      <br />
+                      которые работают
+                    </h3>
+                    <p>
+                      Партнерские подарки для розыгрышей, коллаборация с
+                      «Пятницей» и поддержка фильма «Яга на нашу голову».
+                      Интеграция с «Пятницей» привела более 50 тысяч новых
+                      подписчиков в Telegram, а кампания фильма повысила
+                      вовлеченность в 1,5 раза. Совместный контентный проект с
+                      Банком России добавил еще 15 тысяч подписчиков и повысил
+                      вовлечённость на 35%.
+                    </p>
+                  </div>
                 </div>
                 <div className="wild-layout">
                   <ProjectImage
@@ -594,47 +682,18 @@ export function App() {
                     }}
                   />
                 </div>
-                <div className="case__substory">
-                  <ProjectImage
-                    className="substory-media"
-                    item={{
-                      name: "Wildberries — бренд-интеграции",
-                      image: "wildberries-post.jpg",
-                      alt: "Креатив Wildberries для партнерской публикации",
-                    }}
-                  />
-                  <div>
-                    <span className="eyebrow">Креатив в экосистеме</span>
-                    <h3>
-                      Бренд-интеграции,
-                      <br />
-                      которые работают
-                    </h3>
-                    <p>
-                      Партнерские подарки для розыгрышей, коллаборация с
-                      «Пятницей» и поддержка фильма «Яга на нашу голову».
-                      Интеграция с «Пятницей» привела более 50 тысяч новых
-                      подписчиков в Telegram, а кампания фильма повысила
-                      вовлеченность в 1,5 раза. Совместный контентный проект с
-                      Банком России добавил еще 15 тысяч подписчиков и повысил
-                      вовлечённость на 35%.
-                    </p>
-                  </div>
-                </div>
               </article>
             </div>
           </details>
           <details className="project-disclosure" id="metalloinvest">
-            <summary>
-              <span className="project-number">02</span>
-              <BrandLogo name="Металлоинвест" />
-              <span className="project-title">HR-кампания</span>
-              <span className="project-toggle" aria-hidden="true">
-                +
-              </span>
-            </summary>
+            <ProjectSummary
+              no="02"
+              name="Металлоинвест"
+              title="HR-кампания"
+              image="metalloinvest-hr.jpg"
+              highlight="1 015 заявок"
+            />
             <div className="project-content">
-              {" "}
               <article className="case case--metal">
                 <div className="metal-intro">
                   <div>
@@ -687,24 +746,23 @@ export function App() {
             </div>
           </details>
           <div className="project-list">
-            {cases.map((item, i) => (
+            {cases.map((item) => (
               <details className="project-disclosure" key={item.no}>
-                <summary>
-                  <span className="project-number">{item.no}</span>
-                  <BrandLogo name={item.name} />
-                  <span className="project-title">
-                    {item.name === "Слобода"
+                <ProjectSummary
+                  no={item.no}
+                  name={item.name}
+                  title={
+                    item.name === "Слобода"
                       ? "SMM-стратегия и ведение соцсетей"
                       : item.name === "ВкусВилл"
                         ? "Инфлюенс-кампания"
-                        : item.kind}
-                  </span>
-                  <span className="project-toggle" aria-hidden="true">
-                    +
-                  </span>
-                </summary>
+                        : item.kind
+                  }
+                  image={item.image}
+                  highlight={item.highlight}
+                />
                 <div className="project-content mini-case">
-                  <ProjectImage item={item} />
+                  <ProjectImage item={item} caption={item.kind} />
                   <div className="mini-case__body">
                     <div className="mini-case__heading">
                       <div className="mini-case__identity">

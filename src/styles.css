@@ -3326,3 +3326,286 @@ html:has(.image-dialog[open]) {
 .project-disclosure > summary > * {
   min-width: 0;
 }
+
+/* Campaign-led editorial polish. Native disclosures remain the layout primitive. */
+.hero__actions {
+  align-items: center;
+  gap: 24px;
+}
+.hero__actions .hero__contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 12px 16px;
+  border: 1px solid var(--red);
+  color: var(--paper);
+  background: var(--red);
+  transition:
+    background-color 180ms,
+    color 180ms;
+}
+.hero__actions .hero__contact:hover {
+  color: var(--red);
+  background: transparent;
+}
+.hero-nav a {
+  position: relative;
+}
+.hero-nav a::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 0;
+  width: 2px;
+  background: var(--red);
+  transform: scaleY(0);
+  transition: transform 180ms;
+}
+.hero-nav a[aria-current="location"]::before {
+  transform: scaleY(1);
+}
+.hero-nav a[aria-current="location"] {
+  color: var(--red);
+}
+.project-disclosure {
+  position: relative;
+}
+.project-disclosure > summary,
+.project-disclosure.case-expand > summary {
+  position: relative;
+  grid-template-columns: 24px 165px minmax(0, 1fr) 145px 24px;
+  gap: 20px;
+}
+.project-highlight {
+  font: 400 12px/1.4 var(--font-display);
+  color: #6a625b;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.project-disclosure[open] > summary {
+  background: #eee8e0;
+  box-shadow: inset 2px 0 var(--red);
+}
+.project-disclosure[open] > summary .project-highlight {
+  color: var(--red);
+}
+.project-preview {
+  position: absolute;
+  width: 210px;
+  right: 54px;
+  top: 50%;
+  z-index: 6;
+  transform: translateY(-50%);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 30px #221a1624;
+  padding: 8px;
+  pointer-events: none;
+  animation: preview-enter 180ms ease-out both;
+}
+.project-preview img {
+  display: block;
+  width: 100%;
+  height: 128px;
+  object-fit: contain;
+  background: #eee8e0;
+}
+.project-preview > span {
+  display: block;
+  padding: 8px 2px 2px;
+  font: 400 10px/1.4 var(--font-display);
+  color: #6a625b;
+  letter-spacing: 0.04em;
+}
+.project-disclosure[open] > summary .project-preview {
+  display: none;
+}
+.project-disclosure[open] > .project-content {
+  animation: case-enter 220ms ease-out both;
+}
+@keyframes preview-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes case-enter {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.project-content {
+  padding-top: 28px;
+  padding-bottom: 40px;
+}
+.project-content .copy-label {
+  display: block;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+.project-content .case__substory {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 36px;
+  padding: 24px;
+  margin: 0 0 28px;
+  background: #eee8e0;
+  border: 0;
+}
+.project-content .substory-media {
+  height: auto;
+  aspect-ratio: 1;
+  background: transparent;
+}
+.project-content .substory-media img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.project-content .case__substory h3 {
+  font: 500 clamp(30px, 3vw, 42px)/1.04 var(--font-body);
+  letter-spacing: -0.025em;
+  margin: 14px 0;
+}
+.project-content .case__substory p {
+  font-size: 20px;
+  line-height: 1.35;
+  margin-bottom: 0;
+}
+.project-content .wild-layout {
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+.project-content.mini-case {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 36px;
+}
+.project-content .mini-case__image {
+  background: #eee8e0;
+  padding: 14px;
+  border: 1px solid var(--line);
+}
+.project-content .mini-case__image img {
+  display: block;
+  width: 100%;
+}
+.project-content .image-open__caption {
+  position: static;
+  display: block;
+  font: 400 10px/1.4 var(--font-display);
+  text-align: left;
+  color: #6a625b;
+  padding: 12px 2px 0;
+  background: transparent;
+}
+.project-content .mini-case__results {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.project-content .mini-case__results strong {
+  color: var(--red);
+}
+@media (max-width: 1099px) {
+  .project-disclosure > summary,
+  .project-disclosure.case-expand > summary {
+    grid-template-columns: 24px 145px minmax(0, 1fr) 24px;
+    gap: 8px 18px;
+  }
+  .project-title {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .project-highlight {
+    grid-column: 3;
+    grid-row: 2;
+    text-align: left;
+  }
+  .project-toggle {
+    grid-column: 4;
+    grid-row: 1 / 3;
+  }
+  .project-number,
+  .project-disclosure > summary .brand-logo {
+    grid-row: 1 / 3;
+  }
+  .project-preview {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .project-disclosure > summary,
+  .project-disclosure.case-expand > summary {
+    grid-template-columns: 18px minmax(0, 1fr) 22px;
+    gap: 8px 14px;
+    padding: 20px 14px;
+  }
+  .project-disclosure > summary .brand-logo {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .project-number {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .project-title {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .project-highlight {
+    grid-column: 2;
+    grid-row: 3;
+    font-size: 11px;
+  }
+  .project-toggle {
+    grid-column: 3;
+    grid-row: 1 / 4;
+  }
+  .project-content {
+    padding: 24px 14px 32px;
+  }
+  .project-content .case__substory,
+  .project-content.mini-case {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .project-content .case__substory {
+    padding: 16px;
+  }
+  .project-content .substory-media {
+    max-width: 360px;
+    justify-self: center;
+  }
+  .project-content .case__substory p {
+    font-size: 19px;
+  }
+  .project-content .mini-case__image {
+    padding: 10px;
+  }
+  .hero__actions {
+    gap: 18px;
+  }
+}
+@media (hover: none),
+  (pointer: coarse),
+  (prefers-reduced-motion: reduce),
+  (forced-colors: active) {
+  .project-preview {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-disclosure[open] > .project-content {
+    animation: none;
+  }
+  .hero-nav a::before,
+  .hero__actions .hero__contact {
+    transition: none;
+  }
+}
