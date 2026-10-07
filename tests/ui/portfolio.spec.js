@@ -467,16 +467,14 @@ test("studio light initializes after widening and recovers a lost context", asyn
         .getContext("webgl")
         .getExtension("WEBGL_lose_context");
       if (!extension) return false;
-      el.addEventListener(
-        "webglcontextlost",
-        () => setTimeout(() => extension.restoreContext(), 100),
-        { once: true },
-      );
       extension.loseContext();
       return true;
     }),
   ).toBe(true);
   await expect(canvas).toHaveAttribute("data-state", "lost");
+  await canvas.evaluate((el) =>
+    el.getContext("webgl").getExtension("WEBGL_lose_context").restoreContext(),
+  );
   await expect(canvas).toHaveAttribute("data-state", "ready");
   await context.close();
 });
